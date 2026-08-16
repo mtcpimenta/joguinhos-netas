@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tabuada da Vovó e do Vovô</title>
+<style>
+  :root{
+    --paper: #fdf9fc;
+    --grid-line: #dce6f7;
+    --sky: #eaf3fb;
+    --coral: #ff8fc7;
+    --coral-dark: #e35fa0;
+    --sun: #8ecbf0;
+    --sun-dark: #4fa8d8;
+    --grass: #4fb87a;
+    --grass-dark: #2f9a5c;
+    --grape: #a78bfa;
+    --grape-dark: #7c5cd6;
+    --blue: #8ecbf0;
+    --blue-dark: #4fa8d8;
+    --ink: #3a2e4d;
+    --ink-soft: #7b6f95;
+    --white: #ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family: -apple-system, "Segoe UI Rounded", "Segoe UI", Roboto, Arial, sans-serif;
+    background:
+      linear-gradient(180deg, var(--sky) 0%, #dcecf5 100%);
+    color:var(--ink);
+    min-height:100vh;
+    padding:18px 12px 40px;
+  }
+
+  .app{
+    max-width:640px;
+    margin:0 auto;
+  }
+
+  /* Notebook header with spiral binding */
+  .notebook-header{
+    background:var(--white);
+    border-radius:22px 22px 8px 8px;
+    padding:26px 20px 18px;
+    position:relative;
+    box-shadow: 0 10px 0 rgba(44,62,74,0.06), 0 14px 30px rgba(44,62,74,0.10);
+    margin-bottom:22px;
+    overflow:visible;
+  }
+  .spirals{
+    position:absolute;
+    top:-14px; left:0; right:0;
+    display:flex;
+    justify-content:space-evenly;
+    padding:0 30px;
+  }
+  .spiral{
+    width:18px;height:18px;
+    border-radius:50%;
+    border:4px solid var(--grape);
+    background:var(--sky);
+    opacity:0.55;
+  }
+  h1{
+    font-size:1.5rem;
+    margin:6px 0 2px;
+    text-align:center;
+    letter-spacing:0.3px;
+  }
+  .subtitle{
+    text-align:center;
+    color:var(--ink-soft);
+    font-size:0.92rem;
+    margin:0 0 12px;
+  }
+  .stimulus{
+    text-align:center;
+    background:linear-gradient(90deg, var(--coral), var(--grape));
+    color:var(--white);
+    font-weight:800;
+    font-size:0.9rem;
+    padding:10px 14px;
+    border-radius:12px;
+    margin:0;
+  }
+
+  /* Menu grid */
+  .menu{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+  @media(max-width:420px){ .menu{grid-template-columns:1fr;} }
+
+  .game-card{
+    border:none;
+    border-radius:18px;
+    padding:20px 16px;
+    text-align:left;
+    cursor:pointer;
+    color:var(--white);
+    font-family:inherit;
+    position:relative;
+    box-shadow: 0 6px 0 rgba(0,0,0,0.12);
+    transition: transform .08s ease;
+  }
+  .game-card:active{ transform: translateY(4px); box-shadow:0 2px 0 rgba(0,0,0,0.12); }
+  .game-card .emoji{font-size:2rem; display:block; margin-bottom:8px;}
+  .game-card .title{font-size:1.05rem; font-weight:800; margin-bottom:4px;}
+  .game-card .desc{font-size:0.82rem; opacity:0.95; line-height:1.3;}
+  .card-coral{background:linear-gradient(160deg, var(--coral), var(--coral-dark));}
+  .card-sun{background:linear-gradient(160deg, var(--grape), var(--grape-dark));}
+  .card-grass{background:linear-gradient(160deg, var(--blue), var(--blue-dark));}
+  .card-grape{background:linear-gradient(160deg, var(--coral), var(--grape-dark));}
+  .card-roleta{background:linear-gradient(160deg, var(--blue), var(--grape-dark));}
+
+  /* Game panel = squared notebook paper */
+  .panel{
+    background:
+      repeating-linear-gradient(0deg, transparent, transparent 27px, var(--grid-line) 27px, var(--grid-line) 28px),
+      repeating-linear-gradient(90deg, transparent, transparent 27px, var(--grid-line) 27px, var(--grid-line) 28px),
+      var(--paper);
+    border-radius:16px;
+    padding:20px 16px;
+    box-shadow: 0 10px 0 rgba(44,62,74,0.06), 0 14px 30px rgba(44,62,74,0.10);
+    display:none;
+    position:relative;
+  }
+  .panel.active{display:block;}
+  .panel::before{
+    content:"";
+    position:absolute; left:34px; top:0; bottom:0;
+    width:2px; background:var(--grape); opacity:0.35;
+  }
+
+  .back-btn{
+    background:none; border:none; color:var(--ink-soft);
+    font-size:0.9rem; font-weight:700; cursor:pointer;
+    padding:6px 0 14px; display:flex; align-items:center; gap:4px;
+  }
+  .back-btn:active{opacity:0.6;}
+
+  .panel h2{
+    margin:0 0 4px; font-size:1.2rem;
+  }
+  .panel .panel-desc{color:var(--ink-soft); font-size:0.85rem; margin:0 0 14px;}
+
+  /* Table picker chips */
+  .chip-row{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px;}
+  .chip{
+    border:2px solid var(--ink); background:var(--white);
+    border-radius:10px; width:42px; height:42px;
+    font-weight:800; font-size:1rem; cursor:pointer;
+    display:flex; align-items:center; justify-content:center;
+  }
+  .chip.selected{background:var(--grape); border-color:var(--grape-dark); color:var(--white);}
+
+  /* Learn mode */
+  .learn-stage{text-align:center;}
+  .learn-eq{
+    font-size:2.2rem; font-weight:800; margin:10px 0 14px;
+    color:var(--ink);
+  }
+  .dots-wrap{
+    display:flex; justify-content:center; flex-wrap:wrap; gap:14px;
+    margin-bottom:16px; min-height:80px;
+  }
+  .dot-group{
+    background:var(--white); border-radius:12px; padding:8px 10px;
+    display:grid; grid-template-columns:repeat(auto-fill,16px); gap:5px;
+    border:2px solid var(--grid-line);
+  }
+  .dot{width:14px;height:14px;border-radius:50%; background:var(--coral);}
+  .nav-row{display:flex; justify-content:center; gap:10px; margin-top:6px;}
+  .btn{
+    border:none; border-radius:12px; padding:12px 20px;
+    font-weight:800; font-size:0.95rem; cursor:pointer; color:var(--white);
+    box-shadow:0 4px 0 rgba(0,0,0,0.15);
+  }
+  .btn:active{ transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.15); }
+  .btn-coral{background:var(--coral-dark);}
+  .btn-grass{background:var(--grass-dark);}
+  .btn-grape{background:var(--grape-dark);}
+  .btn-sun{background:var(--sun-dark); color:var(--white);}
+  .btn-disabled{opacity:0.4; pointer-events:none;}
+
+  /* Quiz */
+  .score-row{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-bottom:10px; font-weight:800; font-size:0.9rem; color:var(--ink-soft);
+  }
+  .score-row .streak{color:var(--coral-dark);}
+  .quiz-question{
+    font-size:2rem; font-weight:800; text-align:center; margin:14px 0 18px;
+  }
+  .options-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:10px;
+  }
+  .option-btn{
+    background:var(--white); border:3px solid var(--grid-line);
+    border-radius:14px; padding:16px 8px; font-size:1.3rem; font-weight:800;
+    cursor:pointer; color:var(--ink);
+  }
+  .option-btn.correct{background:var(--grass); border-color:var(--grass-dark); color:var(--white);}
+  .option-btn.wrong{background:var(--coral); border-color:var(--coral-dark); color:var(--white);}
+  .feedback{
+    text-align:center; font-weight:800; font-size:1.1rem; height:28px; margin-top:10px;
+  }
+
+  /* Timed challenge */
+  .timer-bar-wrap{
+    height:14px; background:var(--white); border-radius:10px; overflow:hidden;
+    border:2px solid var(--grid-line); margin-bottom:16px;
+  }
+  .timer-bar{height:100%; background:var(--sun); width:100%; transition:width .1s linear;}
+  .answer-input{
+    width:100%; font-size:1.6rem; text-align:center; padding:12px;
+    border-radius:12px; border:3px solid var(--grid-line); font-weight:800;
+    margin-bottom:12px; font-family:inherit;
+  }
+  .answer-input:focus{outline:none; border-color:var(--grape);}
+
+  /* Memory game */
+  .memory-grid{
+    display:grid; grid-template-columns:repeat(4, 1fr); gap:8px;
+  }
+  .memory-card{
+    aspect-ratio:1/1; border-radius:10px; background:var(--grape);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:800; font-size:1.1rem; color:var(--white); cursor:pointer;
+    box-shadow:0 3px 0 rgba(0,0,0,0.15);
+  }
+  .memory-card.flipped{background:var(--white); color:var(--ink); border:2px solid var(--grid-line);}
+  .memory-card.matched{background:var(--grass); color:var(--white); opacity:0.85; cursor:default;}
+
+  .result-box{
+    text-align:center; padding:24px 10px;
+  }
+  .result-box .big-emoji{font-size:3rem; display:block; margin-bottom:6px;}
+  .result-box .result-title{font-size:1.3rem; font-weight:800; margin-bottom:6px;}
+  .result-box .result-sub{color:var(--ink-soft); font-size:0.9rem; margin-bottom:18px;}
+
+  .learn-tip{
+    display:none;
+    background:var(--white);
+    border:2px dashed var(--grape);
+    border-radius:12px;
+    padding:8px 12px;
+    font-size:0.85rem;
+    color:var(--ink-soft);
+    max-width:420px;
+    margin:0 auto 14px;
+  }
+  .learn-tip.active{display:block;}
+
+  .focus-btn{
+    background:var(--white);
+    border:2px solid var(--grape);
+    color:var(--grape-dark);
+    border-radius:10px;
+    padding:8px 12px;
+    font-weight:800;
+    font-size:0.82rem;
+    cursor:pointer;
+    margin-bottom:12px;
+  }
+  .focus-btn.active{background:var(--grape); color:var(--white);}
+
+  .hidden{display:none !important;}
+
+  /* Roulette */
+  .wheel-wrap{
+    display:flex; flex-direction:column; align-items:center; margin-bottom:16px;
+  }
+  .wheel-frame{
+    position:relative; width:230px; height:230px; margin-bottom:14px;
+  }
+  .pointer{
+    position:absolute; top:-6px; left:50%; transform:translateX(-50%);
+    width:0; height:0; z-index:3;
+    border-left:14px solid transparent;
+    border-right:14px solid transparent;
+    border-top:22px solid var(--grape-dark);
+    filter:drop-shadow(0 2px 1px rgba(0,0,0,0.2));
+  }
+  .wheel{
+    width:100%; height:100%; border-radius:50%;
+    border:6px solid var(--white);
+    box-shadow:0 8px 20px rgba(58,46,77,0.25);
+    position:relative;
+    transition: transform 3.2s cubic-bezier(0.17,0.67,0.12,0.99);
+  }
+  .wheel-label{
+    position:absolute; font-weight:800; font-size:1rem; color:var(--white);
+    text-shadow:0 1px 2px rgba(0,0,0,0.25);
+  }
+  .wheel-hub{
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+    width:34px; height:34px; border-radius:50%; background:var(--white);
+    border:4px solid var(--grape-dark); z-index:2;
+  }
+  .roleta-question{display:none;}
+  .roleta-question.active{display:block;}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="notebook-header">
+    <div class="spirals">
+      <div class="spiral"></div><div class="spiral"></div><div class="spiral"></div>
+      <div class="spiral"></div><div class="spiral"></div><div class="spiral"></div>
+    </div>
+    <h1>📒 Tabuada da Vovó e do Vovô</h1>
+    <p class="subtitle">Teté, escolha um joguinho para brincar e treinar!</p>
+    <p class="stimulus">💪✨ Ficamos bons em tudo quando treinamos bastante, Teté!</p>
+  </div>
+
+  <!-- MENU -->
+  <div id="menu" class="menu">
+    <button class="game-card card-coral" onclick="openGame('learn')">
+      <span class="emoji">🎈</span>
+      <div class="title">Aprender</div>
+      <div class="desc">Veja a tabuada com bolinhas, passo a passo</div>
+    </button>
+    <button class="game-card card-sun" onclick="openGame('quiz')">
+      <span class="emoji">⚡</span>
+      <div class="title">Quiz Relâmpago</div>
+      <div class="desc">Escolha a resposta certa entre 4 opções</div>
+    </button>
+    <button class="game-card card-grass" onclick="openGame('race')">
+      <span class="emoji">⏱️</span>
+      <div class="title">Corrida do Tempo</div>
+      <div class="desc">Digite a resposta antes que o tempo acabe</div>
+    </button>
+    <button class="game-card card-grape" onclick="openGame('memory')">
+      <span class="emoji">🃏</span>
+      <div class="title">Jogo da Memória</div>
+      <div class="desc">Ache os pares: conta com resultado</div>
+    </button>
+    <button class="game-card card-roleta" style="grid-column:1/-1;" onclick="openGame('roleta')">
+      <span class="emoji">🎡</span>
+      <div class="title">Roleta da Tabuada</div>
+      <div class="desc">Gire a roleta e responda a tabuada que sair!</div>
+    </button>
+  </div>
+
+  <!-- LEARN PANEL -->
+  <div id="panel-learn" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🎈 Aprender a Tabuada</h2>
+    <p class="panel-desc">Escolha o número e veja as bolinhas se juntando!</p>
+    <div class="chip-row" id="learn-chips"></div>
+    <div class="learn-stage">
+      <div class="learn-eq" id="learn-eq">-</div>
+      <div class="learn-tip" id="learn-tip"></div>
+      <div class="dots-wrap" id="learn-dots"></div>
+      <div class="nav-row">
+        <button class="btn btn-coral" id="learn-prev" onclick="learnStep(-1)">◀ anterior</button>
+        <button class="btn btn-grass" id="learn-next" onclick="learnStep(1)">próxima ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ PANEL -->
+  <div id="panel-quiz" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>⚡ Quiz Relâmpago</h2>
+    <p class="panel-desc" id="quiz-setup-desc">Escolha as tabuadas para praticar (pode marcar mais de uma):</p>
+    <button class="focus-btn" onclick="focusHardTables('quiz')">🎯 Foco no 6, 7 e 8</button>
+    <div class="chip-row" id="quiz-chips"></div>
+    <button class="btn btn-sun" onclick="startQuiz()">Começar! 🚀</button>
+
+    <div id="quiz-play" class="hidden" style="margin-top:16px;">
+      <div class="score-row">
+        <span>⭐ Pontos: <span id="quiz-score">0</span></span>
+        <span class="streak">🔥 Sequência: <span id="quiz-streak">0</span></span>
+      </div>
+      <div class="quiz-question" id="quiz-question">?</div>
+      <div class="options-grid" id="quiz-options"></div>
+      <div class="feedback" id="quiz-feedback"></div>
+    </div>
+  </div>
+
+  <!-- RACE PANEL -->
+  <div id="panel-race" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>⏱️ Corrida do Tempo</h2>
+    <p class="panel-desc" id="race-setup-desc">Escolha as tabuadas e veja quantas você acerta em 60 segundos!</p>
+    <button class="focus-btn" onclick="focusHardTables('race')">🎯 Foco no 6, 7 e 8</button>
+    <div class="chip-row" id="race-chips"></div>
+    <button class="btn btn-grass" onclick="startRace()">Começar corrida! 🏁</button>
+
+    <div id="race-play" class="hidden" style="margin-top:16px;">
+      <div class="score-row">
+        <span>⭐ Acertos: <span id="race-score">0</span></span>
+        <span>⏳ <span id="race-time">60</span>s</span>
+      </div>
+      <div class="timer-bar-wrap"><div class="timer-bar" id="race-timerbar"></div></div>
+      <div class="quiz-question" id="race-question">?</div>
+      <input type="tel" inputmode="numeric" class="answer-input" id="race-input" placeholder="?" autocomplete="off">
+      <div class="feedback" id="race-feedback"></div>
+    </div>
+  </div>
+
+  <!-- MEMORY PANEL -->
+  <div id="panel-memory" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🃏 Jogo da Memória</h2>
+    <p class="panel-desc" id="memory-setup-desc">Escolha UMA tabuada para montar o jogo:</p>
+    <div class="chip-row" id="memory-chips"></div>
+    <button class="btn btn-grape" onclick="startMemory()">Embaralhar! 🔀</button>
+
+    <div id="memory-play" class="hidden" style="margin-top:16px;">
+      <div class="score-row">
+        <span>👀 Tentativas: <span id="memory-tries">0</span></span>
+        <span>✅ Pares: <span id="memory-pairs">0</span>/6</span>
+      </div>
+      <div class="memory-grid" id="memory-grid"></div>
+    </div>
+  </div>
+
+  <!-- ROLETA PANEL -->
+  <div id="panel-roleta" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🎡 Roleta da Tabuada</h2>
+    <p class="panel-desc">Gire a roleta para descobrir qual tabuada vai cair, e responda a conta!</p>
+    <button class="focus-btn" id="roleta-focus-btn" onclick="toggleRoletaFocus()">🎯 Cair mais no 6, 7 e 8</button>
+    <div class="score-row">
+      <span>⭐ Acertos: <span id="roleta-score">0</span></span>
+      <span>🎯 Giros: <span id="roleta-spins">0</span></span>
+    </div>
+    <div class="wheel-wrap">
+      <div class="wheel-frame">
+        <div class="pointer"></div>
+        <div class="wheel" id="roleta-wheel"></div>
+        <div class="wheel-hub"></div>
+      </div>
+      <button class="btn btn-grape" id="roleta-spin-btn" onclick="spinRoleta()">Girar! 🎡</button>
+    </div>
+
+    <div class="roleta-question" id="roleta-question-wrap">
+      <div class="quiz-question" id="roleta-question">?</div>
+      <input type="tel" inputmode="numeric" class="answer-input" id="roleta-input" placeholder="?" autocomplete="off">
+      <div style="text-align:center;">
+        <button class="btn btn-coral" onclick="checkRoletaAnswer()">Responder</button>
+      </div>
+      <div class="feedback" id="roleta-feedback"></div>
+    </div>
+  </div>
+
+  <!-- RESULT (shared) -->
+  <div id="panel-result" class="panel">
+    <div class="result-box">
+      <span class="big-emoji" id="result-emoji">🎉</span>
+      <div class="result-title" id="result-title">Parabéns!</div>
+      <div class="result-sub" id="result-sub"></div>
+      <button class="btn btn-coral" onclick="goHome()">Voltar ao menu</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* ---------- Utility ---------- */
+function goHome(){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('menu').style.display='grid';
+}
+function openGame(name){
+  document.getElementById('menu').style.display='none';
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+}
+function showResult(emoji, title, sub){
+  document.getElementById('result-emoji').textContent = emoji;
+  document.getElementById('result-title').textContent = title;
+  document.getElementById('result-sub').textContent = sub;
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-result').classList.add('active');
+}
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+
+/* ---------- LEARN MODE ---------- */
+let learnTable = 2;
+let learnIndex = 0; // 0..9 => x1..x10
+function buildLearnChips(){
+  const wrap = document.getElementById('learn-chips');
+  wrap.innerHTML='';
+  for(let n=1;n<=10;n++){
+    const c=document.createElement('button');
+    c.className='chip'+(n===learnTable?' selected':'');
+    c.textContent=n;
+    c.onclick=()=>{ learnTable=n; learnIndex=0; buildLearnChips(); renderLearn(); };
+    wrap.appendChild(c);
+  }
+}
+function renderLearn(){
+  const mult = learnIndex+1;
+  const result = learnTable*mult;
+  document.getElementById('learn-eq').textContent = `${learnTable} × ${mult} = ${result}`;
+
+  const tipEl = document.getElementById('learn-tip');
+  const tips = {
+    6: '💡 Dica: a tabuada do 6 é o dobro da tabuada do 3! Se você já sabe 3×4=12, então 6×4 é o dobro: 24.',
+    7: '💡 Dica: a do 7 é mesmo a mais difícil, é normal! Tente quebrar em partes que você já sabe: 7×6 = (5×6) + (2×6) = 30+12 = 42.',
+    8: '💡 Dica: a tabuada do 8 é o dobro da do 4 (que é o dobro da do 2!). Dobre duas vezes e chega lá.'
+  };
+  if(tips[learnTable]){
+    tipEl.textContent = tips[learnTable];
+    tipEl.classList.add('active');
+  } else {
+    tipEl.classList.remove('active');
+  }
+
+  const dotsWrap = document.getElementById('learn-dots');
+  dotsWrap.innerHTML='';
+  for(let g=0; g<mult; g++){
+    const group=document.createElement('div');
+    group.className='dot-group';
+    group.style.gridTemplateColumns = `repeat(${Math.min(learnTable,5)}, 16px)`;
+    for(let d=0; d<learnTable; d++){
+      const dot=document.createElement('div');
+      dot.className='dot';
+      group.appendChild(dot);
+    }
+    dotsWrap.appendChild(group);
+  }
+  document.getElementById('learn-prev').classList.toggle('btn-disabled', learnIndex===0);
+  document.getElementById('learn-next').classList.toggle('btn-disabled', learnIndex===9);
+}
+function learnStep(dir){
+  learnIndex = Math.min(9, Math.max(0, learnIndex+dir));
+  renderLearn();
+}
+buildLearnChips();
+renderLearn();
+
+function focusHardTables(mode){
+  if(mode==='quiz'){
+    quizTables = new Set([6,7,8]);
+    buildQuizChips();
+  } else if(mode==='race'){
+    raceTables = new Set([6,7,8]);
+    buildRaceChips();
+  }
+}
+
+/* ---------- QUIZ MODE ---------- */
+let quizTables = new Set([2,3,4,5]);
+let quizScore=0, quizStreak=0, quizCurrent=null;
+function buildQuizChips(){
+  const wrap=document.getElementById('quiz-chips');
+  wrap.innerHTML='';
+  for(let n=1;n<=10;n++){
+    const c=document.createElement('button');
+    c.className='chip'+(quizTables.has(n)?' selected':'');
+    c.textContent=n;
+    c.onclick=()=>{
+      if(quizTables.has(n)) quizTables.delete(n); else quizTables.add(n);
+      buildQuizChips();
+    };
+    wrap.appendChild(c);
+  }
+}
+buildQuizChips();
+
+function newQuizQuestion(){
+  const tables=[...quizTables];
+  if(tables.length===0){ tables.push(2); }
+  const a = tables[Math.floor(Math.random()*tables.length)];
+  const b = Math.floor(Math.random()*10)+1;
+  const correct = a*b;
+  const options = new Set([correct]);
+  while(options.size<4){
+    const delta = Math.floor(Math.random()*10)-5;
+    const fake = correct+delta*(Math.random()<0.5?1:2);
+    if(fake>0 && fake!==correct) options.add(fake);
+  }
+  const optsArr = shuffle([...options]);
+  quizCurrent = {a,b,correct};
+  document.getElementById('quiz-question').textContent = `${a} × ${b} = ?`;
+  const optWrap = document.getElementById('quiz-options');
+  optWrap.innerHTML='';
+  optsArr.forEach(val=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.textContent=val;
+    btn.onclick=()=>checkQuizAnswer(val, btn);
+    optWrap.appendChild(btn);
+  });
+  document.getElementById('quiz-feedback').textContent='';
+}
+function checkQuizAnswer(val, btn){
+  const correct = quizCurrent.correct;
+  document.querySelectorAll('#quiz-options .option-btn').forEach(b=>{
+    b.onclick=null;
+    if(parseInt(b.textContent)===correct) b.classList.add('correct');
+  });
+  const fb=document.getElementById('quiz-feedback');
+  if(val===correct){
+    quizScore+=10; quizStreak+=1;
+    fb.textContent='✅ Isso aí, Helena!';
+    fb.style.color='var(--grass-dark)';
+  } else {
+    btn.classList.add('wrong');
+    quizStreak=0;
+    fb.textContent=`❌ Quase! Era ${correct}`;
+    fb.style.color='var(--coral-dark)';
+  }
+  document.getElementById('quiz-score').textContent=quizScore;
+  document.getElementById('quiz-streak').textContent=quizStreak;
+  setTimeout(newQuizQuestion, 1100);
+}
+function startQuiz(){
+  quizScore=0; quizStreak=0;
+  document.getElementById('quiz-score').textContent=0;
+  document.getElementById('quiz-streak').textContent=0;
+  document.getElementById('quiz-play').classList.remove('hidden');
+  newQuizQuestion();
+}
+
+/* ---------- RACE MODE ---------- */
+let raceTables=new Set([2,3,4,5]);
+let raceScore=0, raceTimeLeft=60, raceTimer=null, raceCurrent=null;
+function buildRaceChips(){
+  const wrap=document.getElementById('race-chips');
+  wrap.innerHTML='';
+  for(let n=1;n<=10;n++){
+    const c=document.createElement('button');
+    c.className='chip'+(raceTables.has(n)?' selected':'');
+    c.textContent=n;
+    c.onclick=()=>{
+      if(raceTables.has(n)) raceTables.delete(n); else raceTables.add(n);
+      buildRaceChips();
+    };
+    wrap.appendChild(c);
+  }
+}
+buildRaceChips();
+
+function newRaceQuestion(){
+  const tables=[...raceTables];
+  if(tables.length===0) tables.push(2);
+  const a=tables[Math.floor(Math.random()*tables.length)];
+  const b=Math.floor(Math.random()*10)+1;
+  raceCurrent={a,b,correct:a*b};
+  document.getElementById('race-question').textContent=`${a} × ${b} = ?`;
+  const input=document.getElementById('race-input');
+  input.value='';
+  input.focus();
+  document.getElementById('race-feedback').textContent='';
+}
+function startRace(){
+  raceScore=0; raceTimeLeft=60;
+  document.getElementById('race-score').textContent=0;
+  document.getElementById('race-time').textContent=60;
+  document.getElementById('race-timerbar').style.width='100%';
+  document.getElementById('race-play').classList.remove('hidden');
+  newRaceQuestion();
+  clearInterval(raceTimer);
+  raceTimer=setInterval(()=>{
+    raceTimeLeft--;
+    document.getElementById('race-time').textContent=raceTimeLeft;
+    document.getElementById('race-timerbar').style.width=(raceTimeLeft/60*100)+'%';
+    if(raceTimeLeft<=0){
+      clearInterval(raceTimer);
+      document.getElementById('race-play').classList.add('hidden');
+      showResult('🏆', 'Tempo esgotado!', `Você acertou ${raceScore} continhas em 60 segundos. Mandou bem, Helena!`);
+    }
+  },1000);
+}
+document.getElementById('race-input').addEventListener('keyup', function(e){
+  if(e.key!=='Enter') return;
+  const val=parseInt(this.value);
+  const fb=document.getElementById('race-feedback');
+  if(val===raceCurrent.correct){
+    raceScore++;
+    document.getElementById('race-score').textContent=raceScore;
+    fb.textContent='✅ Boa, Helena!';
+    fb.style.color='var(--grass-dark)';
+  } else {
+    fb.textContent=`❌ Era ${raceCurrent.correct}`;
+    fb.style.color='var(--coral-dark)';
+  }
+  newRaceQuestion();
+});
+
+/* ---------- MEMORY MODE ---------- */
+let memoryTable=2;
+let memoryFlipped=[], memoryMatchedCount=0, memoryTries=0, memoryLock=false;
+function buildMemoryChips(){
+  const wrap=document.getElementById('memory-chips');
+  wrap.innerHTML='';
+  for(let n=1;n<=10;n++){
+    const c=document.createElement('button');
+    c.className='chip'+(n===memoryTable?' selected':'');
+    c.textContent=n;
+    c.onclick=()=>{ memoryTable=n; buildMemoryChips(); };
+    wrap.appendChild(c);
+  }
+}
+buildMemoryChips();
+
+function startMemory(){
+  memoryMatchedCount=0; memoryTries=0; memoryFlipped=[]; memoryLock=false;
+  document.getElementById('memory-tries').textContent=0;
+  document.getElementById('memory-pairs').textContent=0;
+  document.getElementById('memory-play').classList.remove('hidden');
+
+  const mults = shuffle([1,2,3,4,5,6,7,8,9,10]).slice(0,6);
+  let cards=[];
+  mults.forEach((m,i)=>{
+    cards.push({id:'q'+i, label:`${memoryTable}×${m}`, pair:i});
+    cards.push({id:'a'+i, label:`${memoryTable*m}`, pair:i});
+  });
+  cards = shuffle(cards);
+
+  const grid=document.getElementById('memory-grid');
+  grid.innerHTML='';
+  cards.forEach(cardData=>{
+    const el=document.createElement('div');
+    el.className='memory-card';
+    el.textContent='❓';
+    el.dataset.pair=cardData.pair;
+    el.dataset.label=cardData.label;
+    el.onclick=()=>flipMemoryCard(el);
+    grid.appendChild(el);
+  });
+}
+function flipMemoryCard(el){
+  if(memoryLock || el.classList.contains('flipped') || el.classList.contains('matched')) return;
+  el.classList.add('flipped');
+  el.textContent=el.dataset.label;
+  memoryFlipped.push(el);
+  if(memoryFlipped.length===2){
+    memoryTries++;
+    document.getElementById('memory-tries').textContent=memoryTries;
+    memoryLock=true;
+    const [c1,c2]=memoryFlipped;
+    if(c1.dataset.pair===c2.dataset.pair){
+      setTimeout(()=>{
+        c1.classList.add('matched'); c2.classList.add('matched');
+        memoryMatchedCount++;
+        document.getElementById('memory-pairs').textContent=memoryMatchedCount;
+        memoryFlipped=[]; memoryLock=false;
+        if(memoryMatchedCount===6){
+          setTimeout(()=>{
+            document.getElementById('memory-play').classList.add('hidden');
+            showResult('🌟','Achou todos os pares!', `Foram ${memoryTries} tentativas na tabuada do ${memoryTable}. Capricho, Helena!`);
+          },600);
+        }
+      },500);
+    } else {
+      setTimeout(()=>{
+        c1.classList.remove('flipped'); c1.textContent='❓';
+        c2.classList.remove('flipped'); c2.textContent='❓';
+        memoryFlipped=[]; memoryLock=false;
+      },800);
+    }
+  }
+}
+
+/* ---------- ROLETA MODE ---------- */
+const roletaColors = ['#ff8fc7', '#a78bfa', '#8ecbf0'];
+let roletaScore = 0, roletaSpins = 0, roletaCurrent = null, roletaTotalRotation = 0, roletaSpinning = false;
+let roletaFocusMode = false;
+
+function toggleRoletaFocus(){
+  roletaFocusMode = !roletaFocusMode;
+  document.getElementById('roleta-focus-btn').classList.toggle('active', roletaFocusMode);
+}
+
+function pickRoletaTarget(){
+  if(roletaFocusMode && Math.random() < 0.6){
+    const hard = [6,7,8];
+    return hard[Math.floor(Math.random()*hard.length)];
+  }
+  return Math.floor(Math.random()*10)+1;
+}
+
+function buildRoletaWheel(){
+  const wheel = document.getElementById('roleta-wheel');
+  wheel.innerHTML = '';
+  const stops = [];
+  for(let i=0;i<10;i++){
+    const color = roletaColors[i % 3];
+    stops.push(`${color} ${i*36}deg ${(i+1)*36}deg`);
+  }
+  wheel.style.background = `conic-gradient(${stops.join(',')})`;
+
+  const radius = 82;
+  for(let i=0;i<10;i++){
+    const num = i+1;
+    const angleDeg = i*36 + 18; // center of segment, clockwise from top
+    const angleRad = (angleDeg - 90) * Math.PI/180; // -90 to shift 0deg to top
+    const x = 115 + radius*Math.cos(angleRad);
+    const y = 115 + radius*Math.sin(angleRad);
+    const label = document.createElement('div');
+    label.className = 'wheel-label';
+    label.textContent = num;
+    label.style.left = x+'px';
+    label.style.top = y+'px';
+    label.style.transform = 'translate(-50%,-50%)';
+    wheel.appendChild(label);
+  }
+}
+buildRoletaWheel();
+
+function spinRoleta(){
+  if(roletaSpinning) return;
+  roletaSpinning = true;
+  document.getElementById('roleta-spin-btn').classList.add('btn-disabled');
+  document.getElementById('roleta-question-wrap').classList.remove('active');
+  document.getElementById('roleta-feedback').textContent='';
+
+  const target = pickRoletaTarget();
+  const angleA = (target-1)*36 + 18;
+  const jitter = Math.random()*16 - 8;
+  const extraSpins = 360*5;
+  // Descarta o resto (mod 360) do total anterior para não acumular erro,
+  // mas mantém as voltas completas já dadas para o giro continuar suave.
+  const fullTurnsSoFar = Math.floor(roletaTotalRotation / 360) * 360;
+  roletaTotalRotation = fullTurnsSoFar + extraSpins + ((360 - angleA + 360) % 360) + jitter;
+
+  const wheel = document.getElementById('roleta-wheel');
+  wheel.style.transform = `rotate(${roletaTotalRotation}deg)`;
+
+  setTimeout(()=>{
+    roletaSpinning = false;
+    document.getElementById('roleta-spin-btn').classList.remove('btn-disabled');
+    roletaSpins++;
+    document.getElementById('roleta-spins').textContent = roletaSpins;
+    const b = Math.floor(Math.random()*10)+1;
+    roletaCurrent = {a: target, b, correct: target*b};
+    document.getElementById('roleta-question').textContent = `${target} × ${b} = ?`;
+    document.getElementById('roleta-input').value='';
+    document.getElementById('roleta-question-wrap').classList.add('active');
+    document.getElementById('roleta-input').focus();
+  }, 3300);
+}
+
+function checkRoletaAnswer(){
+  const val = parseInt(document.getElementById('roleta-input').value);
+  const fb = document.getElementById('roleta-feedback');
+  if(val === roletaCurrent.correct){
+    roletaScore++;
+    document.getElementById('roleta-score').textContent = roletaScore;
+    fb.textContent = '✅ Isso aí, Helena!';
+    fb.style.color = 'var(--grass-dark)';
+  } else {
+    fb.textContent = `❌ Era ${roletaCurrent.correct}`;
+    fb.style.color = 'var(--coral-dark)';
+  }
+}
+document.getElementById('roleta-input').addEventListener('keyup', function(e){
+  if(e.key==='Enter') checkRoletaAnswer();
+});
+</script>
+</body>
+</html>

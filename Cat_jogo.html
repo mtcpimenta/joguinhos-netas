@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Joguinhos da Cat</title>
+<style>
+  :root{
+    --bg1:#fff3e0;
+    --bg2:#e0f7fa;
+    --pink:#ff8fc7;
+    --pink-dark:#e35fa0;
+    --yellow:#ffd166;
+    --yellow-dark:#e8ab1f;
+    --green:#8fe3a6;
+    --green-dark:#4fb87a;
+    --blue:#8ecbf0;
+    --blue-dark:#4fa8d8;
+    --purple:#c3a6f7;
+    --purple-dark:#9b7bdb;
+    --ink:#3a2e4d;
+    --ink-soft:#7b6f95;
+    --white:#ffffff;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    font-family: -apple-system, "Segoe UI Rounded", "Segoe UI", Roboto, Arial, sans-serif;
+    background: linear-gradient(160deg, var(--bg1) 0%, var(--bg2) 100%);
+    color:var(--ink);
+    min-height:100vh;
+    padding:16px 12px 40px;
+  }
+  .app{max-width:600px; margin:0 auto;}
+
+  .header{
+    background:var(--white);
+    border-radius:28px;
+    padding:22px 18px;
+    text-align:center;
+    box-shadow:0 10px 0 rgba(58,46,77,0.06), 0 14px 26px rgba(58,46,77,0.10);
+    margin-bottom:20px;
+  }
+  h1{font-size:1.5rem; margin:4px 0 6px;}
+  .stimulus{
+    background:linear-gradient(90deg, var(--pink), var(--purple));
+    color:var(--white); font-weight:800; font-size:0.95rem;
+    padding:10px 14px; border-radius:14px; margin-top:8px;
+  }
+
+  .menu{display:flex; flex-direction:column; gap:14px;}
+  .game-card{
+    border:none; border-radius:22px; padding:22px 18px; text-align:left;
+    cursor:pointer; color:var(--white); font-family:inherit;
+    display:flex; align-items:center; gap:16px;
+    box-shadow:0 6px 0 rgba(0,0,0,0.12);
+  }
+  .game-card:active{transform:translateY(3px); box-shadow:0 2px 0 rgba(0,0,0,0.12);}
+  .game-card .emoji{font-size:2.6rem;}
+  .game-card .title{font-size:1.15rem; font-weight:800;}
+  .game-card .desc{font-size:0.85rem; opacity:0.95;}
+  .card-letras{background:linear-gradient(160deg, var(--pink), var(--pink-dark));}
+  .card-numeros{background:linear-gradient(160deg, var(--blue), var(--blue-dark));}
+  .card-cores{background:linear-gradient(160deg, var(--purple), var(--purple-dark));}
+
+  .panel{
+    background:var(--white); border-radius:24px; padding:22px 18px;
+    box-shadow:0 10px 0 rgba(58,46,77,0.06), 0 14px 26px rgba(58,46,77,0.10);
+    display:none; text-align:center;
+  }
+  .panel.active{display:block;}
+  .back-btn{
+    background:none; border:none; color:var(--ink-soft); font-weight:800;
+    font-size:1rem; cursor:pointer; float:left; padding:2px 0;
+  }
+  .panel h2{margin:6px 0 4px; font-size:1.2rem; clear:both;}
+
+  .stage-emoji{font-size:5.5rem; margin:10px 0;}
+  .stage-word{font-size:1.4rem; font-weight:800; color:var(--ink-soft); margin-bottom:14px;}
+
+  .hear-btn{
+    background:var(--yellow-dark); color:var(--white); border:none;
+    border-radius:14px; padding:12px 22px; font-size:1rem; font-weight:800;
+    cursor:pointer; margin-bottom:18px; box-shadow:0 4px 0 rgba(0,0,0,0.15);
+  }
+  .hear-btn:active{transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.15);}
+
+  .options-grid{
+    display:grid; grid-template-columns:1fr 1fr; gap:14px;
+  }
+  .opt-btn{
+    background:var(--bg2); border:4px solid var(--blue);
+    border-radius:20px; padding:22px 8px; font-size:2.6rem; font-weight:800;
+    cursor:pointer; color:var(--ink);
+    box-shadow:0 5px 0 rgba(0,0,0,0.1);
+  }
+  .opt-btn:active{transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.1);}
+  .opt-btn.correct{background:var(--green); border-color:var(--green-dark); color:var(--white);}
+  .opt-btn.shake{animation:shake 0.4s;}
+  @keyframes shake{
+    0%,100%{transform:translateX(0);}
+    25%{transform:translateX(-8px);}
+    75%{transform:translateX(8px);}
+  }
+
+  .color-opt{
+    border-radius:20px; height:90px; cursor:pointer; border:5px solid var(--white);
+    box-shadow:0 5px 0 rgba(0,0,0,0.15);
+  }
+  .color-opt:active{transform:translateY(3px);}
+
+  .feedback{font-size:1.1rem; font-weight:800; height:30px; margin-top:14px;}
+  .stars{font-size:1.3rem; margin-top:6px; color:var(--yellow-dark); font-weight:800;}
+
+  .celebrate{
+    position:fixed; inset:0; display:flex; align-items:center; justify-content:center;
+    font-size:6rem; pointer-events:none; z-index:99; opacity:0;
+  }
+  .celebrate.show{animation:pop 0.9s ease;}
+  @keyframes pop{
+    0%{opacity:0; transform:scale(0.3);}
+    30%{opacity:1; transform:scale(1.2);}
+    60%{opacity:1; transform:scale(1);}
+    100%{opacity:0; transform:scale(1);}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <h1>🌈 Joguinhos da Cat</h1>
+    <div class="stimulus">Vamos brincar e aprender juntas, Cat! 🐾✨</div>
+  </div>
+
+  <div id="menu" class="menu">
+    <button class="game-card card-letras" onclick="openGame('letras')">
+      <span class="emoji">🔤</span>
+      <div>
+        <div class="title">Letrinhas</div>
+        <div class="desc">Escuta e acha a letra certa</div>
+      </div>
+    </button>
+    <button class="game-card card-numeros" onclick="openGame('numeros')">
+      <span class="emoji">🐘</span>
+      <div>
+        <div class="title">Contando Bichinhos</div>
+        <div class="desc">Conta quantos tem e toca no número</div>
+      </div>
+    </button>
+    <button class="game-card card-cores" onclick="openGame('cores')">
+      <span class="emoji">🎨</span>
+      <div>
+        <div class="title">Cores</div>
+        <div class="desc">Escuta o nome e toca na cor certa</div>
+      </div>
+    </button>
+  </div>
+
+  <!-- LETRAS -->
+  <div id="panel-letras" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🔤 Letrinhas</h2>
+    <div class="stage-emoji" id="letras-emoji">🐝</div>
+    <div class="stage-word" id="letras-word">A de Abelha</div>
+    <button class="hear-btn" onclick="ouvirLetra()">🔊 Ouvir de novo</button>
+    <div class="options-grid" id="letras-options"></div>
+    <div class="feedback" id="letras-feedback"></div>
+    <div class="stars" id="letras-stars">⭐</div>
+  </div>
+
+  <!-- NUMEROS -->
+  <div id="panel-numeros" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🐘 Contando Bichinhos</h2>
+    <div class="stage-emoji" id="numeros-emoji" style="font-size:2.6rem; letter-spacing:6px;">🐘</div>
+    <button class="hear-btn" onclick="ouvirNumero()">🔊 Quantos são?</button>
+    <div class="options-grid" id="numeros-options"></div>
+    <div class="feedback" id="numeros-feedback"></div>
+    <div class="stars" id="numeros-stars">⭐</div>
+  </div>
+
+  <!-- CORES -->
+  <div id="panel-cores" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🎨 Cores</h2>
+    <div class="stage-word" id="cores-word">Toca no rosa!</div>
+    <button class="hear-btn" onclick="ouvirCor()">🔊 Ouvir de novo</button>
+    <div class="options-grid" id="cores-options"></div>
+    <div class="feedback" id="cores-feedback"></div>
+    <div class="stars" id="cores-stars">⭐</div>
+  </div>
+
+</div>
+
+<div class="celebrate" id="celebrate">🎉</div>
+
+<script>
+/* ---------- Utils ---------- */
+function goHome(){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('menu').style.display='flex';
+  speechSynthesis.cancel();
+}
+function openGame(name){
+  document.getElementById('menu').style.display='none';
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(name==='letras') novaLetra();
+  if(name==='numeros') novoNumero();
+  if(name==='cores') novaCor();
+}
+function shuffle(arr){
+  for(let i=arr.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [arr[i],arr[j]]=[arr[j],arr[i]];
+  }
+  return arr;
+}
+let vozPT = null;
+function carregarVozPT(){
+  if(!('speechSynthesis' in window)) return;
+  const vozes = speechSynthesis.getVoices();
+  vozPT = vozes.find(v => v.lang === 'pt-BR') || vozes.find(v => v.lang && v.lang.startsWith('pt'));
+}
+if('speechSynthesis' in window){
+  carregarVozPT();
+  speechSynthesis.onvoiceschanged = carregarVozPT;
+}
+function falar(texto){
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(texto);
+    u.lang = 'pt-BR';
+    if(vozPT) u.voice = vozPT;
+    u.rate = 0.78;
+    u.pitch = 1.05;
+    speechSynthesis.speak(u);
+  }
+}
+function celebrar(){
+  const c = document.getElementById('celebrate');
+  const emojis = ['🎉','🌟','🥳','👏','🎈'];
+  c.textContent = emojis[Math.floor(Math.random()*emojis.length)];
+  c.classList.remove('show');
+  void c.offsetWidth;
+  c.classList.add('show');
+}
+function addStar(elId){
+  const el = document.getElementById(elId);
+  el.textContent += ' ⭐';
+}
+
+/* ---------- LETRAS ---------- */
+const letras = {
+  A:['🐝','Abelha'], B:['🦋','Borboleta'], C:['🐱','Cachorro'], D:['🐬','Delfim'],
+  E:['🐘','Elefante'], F:['🌸','Flor'], G:['🦒','Girafa'], I:['🦎','Iguana'],
+  L:['🦁','Leão'], M:['🐒','Macaco'], O:['🦉','Coruja'], P:['🐧','Pinguim'],
+  S:['🐍','Serpente'], T:['🐢','Tartaruga'], U:['🍇','Uva'], V:['🐄','Vaca']
+};
+let letraAtual = 'A';
+function novaLetra(){
+  const chaves = Object.keys(letras);
+  letraAtual = chaves[Math.floor(Math.random()*chaves.length)];
+  const [emoji, palavra] = letras[letraAtual];
+  document.getElementById('letras-emoji').textContent = emoji;
+  document.getElementById('letras-word').textContent = `${letraAtual} de ${palavra}`;
+  document.getElementById('letras-feedback').textContent = '';
+
+  let opcoes = new Set([letraAtual]);
+  while(opcoes.size < 4){
+    opcoes.add(chaves[Math.floor(Math.random()*chaves.length)]);
+  }
+  const optsArr = shuffle([...opcoes]);
+  const wrap = document.getElementById('letras-options');
+  wrap.innerHTML='';
+  optsArr.forEach(l=>{
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.textContent=l;
+    btn.onclick=()=>checarLetra(l, btn);
+    wrap.appendChild(btn);
+  });
+
+  setTimeout(ouvirLetra, 300);
+}
+function ouvirLetra(){
+  const [,palavra] = letras[letraAtual];
+  falar(`${letraAtual} de ${palavra}.`);
+}
+function checarLetra(l, btn){
+  const fb = document.getElementById('letras-feedback');
+  if(l === letraAtual){
+    btn.classList.add('correct');
+    fb.textContent = '✅ Isso, Cat!';
+    celebrar();
+    addStar('letras-stars');
+    falar('Isso mesmo, Cati! Muito bem!');
+    setTimeout(novaLetra, 1400);
+  } else {
+    btn.classList.add('shake');
+    fb.textContent = '👉 Tenta de novo!';
+    setTimeout(()=>btn.classList.remove('shake'), 400);
+  }
+}
+
+/* ---------- NUMEROS ---------- */
+const bichinhos = ['🐘','🐢','🐧','🦁','🐒','🦋','🐝','🐄'];
+let numeroAtual = 1;
+function novoNumero(){
+  numeroAtual = Math.floor(Math.random()*5)+1; // 1..5
+  const bicho = bichinhos[Math.floor(Math.random()*bichinhos.length)];
+  document.getElementById('numeros-emoji').textContent = bicho.repeat(numeroAtual);
+  document.getElementById('numeros-feedback').textContent = '';
+
+  let opcoes = new Set([numeroAtual]);
+  while(opcoes.size < 4){
+    opcoes.add(Math.floor(Math.random()*5)+1);
+  }
+  const optsArr = shuffle([...opcoes]);
+  const wrap = document.getElementById('numeros-options');
+  wrap.innerHTML='';
+  optsArr.forEach(n=>{
+    const btn=document.createElement('button');
+    btn.className='opt-btn';
+    btn.textContent=n;
+    btn.onclick=()=>checarNumero(n, btn);
+    wrap.appendChild(btn);
+  });
+
+  setTimeout(ouvirNumero, 300);
+}
+function ouvirNumero(){
+  falar('Quantos bichinhos você vê? Conte com o dedinho!');
+}
+function checarNumero(n, btn){
+  const fb = document.getElementById('numeros-feedback');
+  if(n === numeroAtual){
+    btn.classList.add('correct');
+    fb.textContent = '✅ Isso, Cat!';
+    celebrar();
+    addStar('numeros-stars');
+    falar(`Isso mesmo! São ${numeroAtual}! Muito bem, Cati!`);
+    setTimeout(novoNumero, 1400);
+  } else {
+    btn.classList.add('shake');
+    fb.textContent = '👉 Conta de novo!';
+    setTimeout(()=>btn.classList.remove('shake'), 400);
+  }
+}
+
+/* ---------- CORES ---------- */
+const cores = [
+  {nome:'rosa', hex:'#ff8fc7'}, {nome:'azul', hex:'#8ecbf0'},
+  {nome:'amarelo', hex:'#ffd166'}, {nome:'verde', hex:'#8fe3a6'},
+  {nome:'roxo', hex:'#c3a6f7'}, {nome:'laranja', hex:'#ffab73'}
+];
+let corAtual = cores[0];
+function novaCor(){
+  corAtual = cores[Math.floor(Math.random()*cores.length)];
+  document.getElementById('cores-word').textContent = `Toca no ${corAtual.nome}!`;
+  document.getElementById('cores-feedback').textContent = '';
+
+  let opcoes = new Set([corAtual.nome]);
+  while(opcoes.size < 4){
+    opcoes.add(cores[Math.floor(Math.random()*cores.length)].nome);
+  }
+  const optsArr = shuffle([...opcoes]);
+  const wrap = document.getElementById('cores-options');
+  wrap.innerHTML='';
+  optsArr.forEach(nome=>{
+    const corObj = cores.find(c=>c.nome===nome);
+    const btn=document.createElement('button');
+    btn.className='color-opt';
+    btn.style.background = corObj.hex;
+    btn.onclick=()=>checarCor(nome, btn);
+    wrap.appendChild(btn);
+  });
+
+  setTimeout(ouvirCor, 300);
+}
+function ouvirCor(){
+  falar(`Toca no ${corAtual.nome}!`);
+}
+function checarCor(nome, btn){
+  const fb = document.getElementById('cores-feedback');
+  if(nome === corAtual.nome){
+    btn.style.border = '5px solid var(--green-dark)';
+    fb.textContent = '✅ Isso, Cat!';
+    celebrar();
+    addStar('cores-stars');
+    falar('Isso mesmo, Cati! Muito bem!');
+    setTimeout(novaCor, 1400);
+  } else {
+    btn.classList.add('shake');
+    fb.textContent = '👉 Tenta de novo!';
+    setTimeout(()=>btn.classList.remove('shake'), 400);
+  }
+}
+</script>
+</body>
+</html>
