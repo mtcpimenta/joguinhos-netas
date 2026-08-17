@@ -402,7 +402,7 @@
       <div class="quiz-question" id="race-question">?</div>
       <input type="tel" inputmode="numeric" class="answer-input" id="race-input" placeholder="?" autocomplete="off">
       <div style="text-align:center;">
-        <button class="btn btn-coral" onclick="checkRaceAnswer()">Responder</button>
+        <button class="btn btn-coral" id="race-answer-btn" onclick="checkRaceAnswer()">Responder</button>
       </div>
       <div class="feedback" id="race-feedback"></div>
     </div>
@@ -683,18 +683,26 @@ function startRace(){
 }
 function checkRaceAnswer(){
   const input = document.getElementById('race-input');
+  const btn = document.getElementById('race-answer-btn');
+  if(input.disabled) return;
   const val = parseInt(input.value);
   const fb=document.getElementById('race-feedback');
+  input.disabled = true;
+  btn.classList.add('btn-disabled');
   if(val===raceCurrent.correct){
     raceScore++;
     document.getElementById('race-score').textContent=raceScore;
-    fb.textContent='✅ Boa, Helena!';
+    fb.textContent='✅ Acertou, Helena!';
     fb.style.color='var(--grass-dark)';
   } else {
-    fb.textContent=`❌ Era ${raceCurrent.correct}`;
+    fb.textContent=`❌ Errou! Era ${raceCurrent.correct}. Tenta de novo!`;
     fb.style.color='var(--coral-dark)';
   }
-  newRaceQuestion();
+  setTimeout(()=>{
+    input.disabled = false;
+    btn.classList.remove('btn-disabled');
+    newRaceQuestion();
+  }, 900);
 }
 document.getElementById('race-input').addEventListener('keyup', function(e){
   if(e.key!=='Enter') return;
