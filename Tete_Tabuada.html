@@ -303,6 +303,77 @@
   }
   .roleta-question{display:none;}
   .roleta-question.active{display:block;}
+
+  /* ---------- Divisão ---------- */
+  .card-doces{background:linear-gradient(160deg, var(--grape), var(--coral-dark));}
+  .card-detetive{background:linear-gradient(160deg, var(--blue-dark), var(--grape));}
+  .card-relogio{background:linear-gradient(160deg, var(--coral), var(--blue-dark));}
+  .menu-section{
+    grid-column:1/-1; margin:6px 0 -4px; font-weight:800; font-size:0.9rem;
+    color:var(--ink-soft); letter-spacing:0.3px;
+  }
+
+  .op-row{display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;}
+  .op-btn{
+    background:var(--white); border:2px solid var(--grape); color:var(--grape-dark);
+    border-radius:10px; padding:8px 12px; font-weight:800; font-size:0.85rem; cursor:pointer;
+    font-family:inherit;
+  }
+  .op-btn.active{background:var(--grape); color:var(--white);}
+
+  .pile{text-align:center; font-weight:800; color:var(--ink-soft); margin:4px 0 12px; font-size:0.95rem;}
+  .friends-wrap{display:flex; flex-wrap:wrap; justify-content:center; gap:10px; margin-bottom:12px;}
+  .friend{
+    background:var(--white); border:2px solid var(--grid-line); border-radius:14px;
+    padding:6px 8px 8px; min-width:70px; text-align:center;
+  }
+  .friend .face{font-size:1.6rem; line-height:1.2;}
+  .friend .candies{
+    display:grid; grid-template-columns:repeat(5, 14px); gap:2px; justify-content:center;
+    min-height:16px; font-size:12px; line-height:14px; margin-top:4px;
+  }
+  .friend .count{font-weight:800; font-size:0.8rem; color:var(--grape-dark); margin-top:3px;}
+  .nav-row.wrap{flex-wrap:wrap;}
+
+  .story{
+    background:var(--white); border:2px dashed var(--blue-dark); border-radius:12px;
+    padding:10px 12px; font-size:1rem; line-height:1.4; margin:10px 0 4px; text-align:center;
+  }
+  .feedback.tall{height:auto; min-height:28px; font-size:1rem;}
+
+  /* ---------- Relógio ---------- */
+  .rel-levels{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:12px;}
+  .rel-level{
+    border:2px solid var(--grape); background:var(--white); color:var(--grape-dark);
+    border-radius:10px; padding:8px 10px; font-weight:800; font-size:0.85rem; cursor:pointer;
+    text-align:left; font-family:inherit;
+  }
+  .rel-level small{display:block; font-weight:600; opacity:0.85; font-size:0.75rem; margin-top:2px;}
+  .rel-level.active{background:var(--grape); color:var(--white);}
+  .check-row{display:flex; align-items:flex-start; gap:8px; font-size:0.85rem; color:var(--ink-soft); margin-bottom:14px; font-weight:700;}
+  .check-row input{width:18px; height:18px; margin:0; flex-shrink:0;}
+  .clock-wrap{display:flex; justify-content:center; margin:4px 0 10px;}
+  .clock-svg{width:260px; max-width:78vw; height:auto;}
+  .rel-prompt{text-align:center; font-size:1.3rem; font-weight:800; margin:4px 0 6px;}
+  .rel-controls{
+    display:grid; grid-template-columns:auto 1fr 1fr; gap:8px; align-items:center;
+    max-width:330px; margin:0 auto 12px;
+  }
+  .rel-controls .lbl{font-weight:800; font-size:0.85rem;}
+  .small-btn{
+    border:none; border-radius:10px; padding:11px 6px; font-weight:800; font-size:0.9rem;
+    color:var(--white); cursor:pointer; box-shadow:0 3px 0 rgba(0,0,0,0.15); font-family:inherit;
+  }
+  .small-btn:active{transform:translateY(2px); box-shadow:0 1px 0 rgba(0,0,0,0.15);}
+  .small-btn.h{background:var(--coral-dark);}
+  .small-btn.m{background:var(--grape-dark);}
+  .rel-explain{
+    display:none; background:var(--white); border:2px dashed var(--grape); border-radius:12px;
+    padding:10px 12px; font-size:0.92rem; line-height:1.45; margin:8px auto 0; max-width:460px;
+  }
+  .rel-explain.active{display:block;}
+  .options-grid.words .option-btn{font-size:1rem; padding:14px 6px;}
+  .link-btn{background:none; border:none; color:var(--grape-dark); font-weight:800; font-size:0.85rem; cursor:pointer; text-decoration:underline; font-family:inherit;}
 </style>
 </head>
 <body>
@@ -320,15 +391,26 @@
 
   <!-- MENU -->
   <div id="menu" class="menu">
+    <div class="menu-section">✖️ Tabuada de multiplicar e ➗ de dividir</div>
     <button class="game-card card-coral" onclick="openGame('learn')">
       <span class="emoji">🎈</span>
       <div class="title">Aprender</div>
       <div class="desc">Veja a tabuada com bolinhas, passo a passo</div>
     </button>
+    <button class="game-card card-doces" onclick="openGame('doces')">
+      <span class="emoji">🍬</span>
+      <div class="title">Reparte os Doces</div>
+      <div class="desc">Aprenda a dividir repartindo doces entre amigos</div>
+    </button>
     <button class="game-card card-sun" onclick="openGame('quiz')">
       <span class="emoji">⚡</span>
       <div class="title">Quiz Relâmpago</div>
       <div class="desc">Escolha a resposta certa entre 4 opções</div>
+    </button>
+    <button class="game-card card-detetive" onclick="openGame('detetive')">
+      <span class="emoji">🔍</span>
+      <div class="title">Detetive da Divisão</div>
+      <div class="desc">Resolva mistérios repartindo direitinho</div>
     </button>
     <button class="game-card card-grass" onclick="openGame('race')">
       <span class="emoji">⏱️</span>
@@ -344,6 +426,12 @@
       <span class="emoji">🎡</span>
       <div class="title">Roleta da Tabuada</div>
       <div class="desc">Gire a roleta e responda a tabuada que sair!</div>
+    </button>
+    <div class="menu-section">🕐 Relógio</div>
+    <button class="game-card card-relogio" style="grid-column:1/-1;" onclick="openGame('relogio')">
+      <span class="emoji">🕐</span>
+      <div class="title">Hora do Relógio</div>
+      <div class="desc">Aprenda a ler as horas no relógio de ponteiros</div>
     </button>
   </div>
 
@@ -389,6 +477,10 @@
     <button class="back-btn" onclick="goHome()">← voltar</button>
     <h2>⏱️ Corrida do Tempo</h2>
     <p class="panel-desc" id="race-setup-desc">Escolha as tabuadas e veja quantas você acerta em 60 segundos!</p>
+    <div class="op-row" id="race-op">
+      <button class="op-btn active" data-v="mul" onclick="setOp('race','mul')">✖️ Multiplicação</button>
+      <button class="op-btn" data-v="div" onclick="setOp('race','div')">➗ Divisão</button>
+    </div>
     <button class="focus-btn" onclick="focusHardTables('race')">🎯 Foco no 6, 7 e 8</button>
     <div class="chip-row" id="race-chips"></div>
     <button class="btn btn-grass" onclick="startRace()">Começar corrida! 🏁</button>
@@ -412,6 +504,10 @@
   <div id="panel-memory" class="panel">
     <button class="back-btn" onclick="goHome()">← voltar</button>
     <h2>🃏 Jogo da Memória</h2>
+    <div class="op-row" id="memory-op">
+      <button class="op-btn active" data-v="mul" onclick="setOp('memory','mul')">✖️ Multiplicação</button>
+      <button class="op-btn" data-v="div" onclick="setOp('memory','div')">➗ Divisão</button>
+    </div>
     <p class="panel-desc" id="memory-setup-desc">Escolha UMA tabuada para montar o jogo:</p>
     <div class="chip-row" id="memory-chips"></div>
     <button class="btn btn-grape" onclick="startMemory()">Embaralhar! 🔀</button>
@@ -430,6 +526,10 @@
     <button class="back-btn" onclick="goHome()">← voltar</button>
     <h2>🎡 Roleta da Tabuada</h2>
     <p class="panel-desc">Gire a roleta para descobrir qual tabuada vai cair, e responda a conta!</p>
+    <div class="op-row" id="roleta-op">
+      <button class="op-btn active" data-v="mul" onclick="setOp('roleta','mul')">✖️ Multiplicação</button>
+      <button class="op-btn" data-v="div" onclick="setOp('roleta','div')">➗ Divisão</button>
+    </div>
     <button class="focus-btn" id="roleta-focus-btn" onclick="toggleRoletaFocus()">🎯 Cair mais no 6, 7 e 8</button>
     <div class="score-row">
       <span>⭐ Acertos: <span id="roleta-score">0</span></span>
@@ -451,6 +551,86 @@
         <button class="btn btn-coral" onclick="checkRoletaAnswer()">Responder</button>
       </div>
       <div class="feedback" id="roleta-feedback"></div>
+    </div>
+  </div>
+
+  <!-- DOCES PANEL (divisão) -->
+  <div id="panel-doces" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🍬 Reparte os Doces</h2>
+    <p class="panel-desc">Dividir é repartir igualzinho! Escolha quantos amigos vão ganhar doces:</p>
+    <div class="chip-row" id="doces-chips"></div>
+    <div class="learn-stage">
+      <div class="pile" id="doces-pile"></div>
+      <div class="friends-wrap" id="doces-friends"></div>
+      <div class="learn-eq" id="doces-eq">?</div>
+      <div class="learn-tip active" id="doces-inverse"></div>
+      <div class="nav-row wrap">
+        <button class="btn btn-coral" id="doces-prev" onclick="docesStep(-1)">◀ menos</button>
+        <button class="btn btn-grape" id="doces-deal" onclick="dealDoces()">Repartir! 🍬</button>
+        <button class="btn btn-grass" id="doces-next" onclick="docesStep(1)">mais ▶</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DETETIVE PANEL (divisão) -->
+  <div id="panel-detetive" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🔍 Detetive da Divisão</h2>
+    <p class="panel-desc">Resolva os mistérios repartindo direitinho! Escolha as tabuadas de dividir:</p>
+    <button class="focus-btn" onclick="focusHardTables('detetive')">🎯 Foco no 6, 7 e 8</button>
+    <div class="chip-row" id="detetive-chips"></div>
+    <button class="btn btn-grape" onclick="startDetetive()">Começar a investigar! 🕵️</button>
+
+    <div id="detetive-play" class="hidden" style="margin-top:16px;">
+      <div class="score-row">
+        <span>🔎 Resolvidos: <span id="detetive-score">0</span></span>
+        <span class="streak">🔥 Sequência: <span id="detetive-streak">0</span></span>
+      </div>
+      <div class="story" id="detetive-story"></div>
+      <div class="quiz-question" id="detetive-question">?</div>
+      <div class="options-grid" id="detetive-options"></div>
+      <div class="feedback tall" id="detetive-feedback"></div>
+    </div>
+  </div>
+
+  <!-- RELÓGIO PANEL -->
+  <div id="panel-relogio" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🕐 Hora do Relógio</h2>
+    <p class="panel-desc">O ponteiro <b style="color:var(--coral-dark)">pequeno cor-de-rosa</b> marca as horas. O ponteiro <b style="color:var(--grape-dark)">grande roxo</b> marca os minutos.</p>
+
+    <div id="rel-setup">
+      <p class="panel-desc" style="margin-bottom:8px;"><b>1.</b> Escolha o nível:</p>
+      <div class="rel-levels" id="rel-levels"></div>
+      <p class="panel-desc" style="margin-bottom:8px;"><b>2.</b> Escolha como brincar:</p>
+      <div class="op-row" id="rel-mode">
+        <button class="op-btn active" data-v="read" onclick="setRelMode('read')">👀 Que horas são?</button>
+        <button class="op-btn" data-v="set" onclick="setRelMode('set')">✋ Monte a hora</button>
+      </div>
+      <label class="check-row"><input type="checkbox" id="rel-labels" checked onchange="toggleRelLabels()"> Mostrar os minutinhos (05, 10, 15…) em volta do relógio</label>
+      <button class="btn btn-grape" onclick="startRel()">Começar! 🕐</button>
+    </div>
+
+    <div id="rel-play" class="hidden">
+      <div class="score-row">
+        <span>⭐ Acertos: <span id="rel-score">0</span></span>
+        <span>📋 Pergunta <span id="rel-q">1</span> de 10</span>
+      </div>
+      <div class="rel-prompt" id="rel-prompt"></div>
+      <div class="clock-wrap"><svg id="rel-clock" class="clock-svg" viewBox="-106 -106 212 212" aria-label="Relógio"></svg></div>
+      <div id="rel-read" class="options-grid"></div>
+      <div id="rel-set" class="hidden">
+        <div class="rel-controls" id="rel-controls"></div>
+        <div style="text-align:center;"><button class="btn btn-coral" id="rel-check" onclick="checkRelSet()">Conferir ✔️</button></div>
+      </div>
+      <div class="feedback tall" id="rel-feedback"></div>
+      <div class="rel-explain" id="rel-explain"></div>
+      <div style="text-align:center; margin-top:10px;">
+        <button class="btn btn-sun hidden" id="rel-show" onclick="showRelAnswer()">Ver a resposta</button>
+        <button class="btn btn-grass hidden" id="rel-next" onclick="relAsk()">Próxima ▶</button>
+      </div>
+      <div style="text-align:center; margin-top:12px;"><button class="link-btn" onclick="relReset()">Trocar de nível</button></div>
     </div>
   </div>
 
@@ -476,6 +656,8 @@ function openGame(name){
   document.getElementById('menu').style.display='none';
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('panel-'+name).classList.add('active');
+  if(name==='relogio') relReset();
+  if(name==='doces') renderDoces();
 }
 function showResult(emoji, title, sub){
   document.getElementById('result-emoji').textContent = emoji;
@@ -554,6 +736,9 @@ function focusHardTables(mode){
   } else if(mode==='race'){
     raceTables = new Set([6,7,8]);
     buildRaceChips();
+  } else if(mode==='detetive'){
+    detetiveTables = new Set([6,7,8]);
+    buildDetetiveChips();
   }
 }
 
@@ -654,9 +839,8 @@ function newRaceQuestion(){
   const tables=[...raceTables];
   if(tables.length===0) tables.push(2);
   const a=tables[Math.floor(Math.random()*tables.length)];
-  const b=Math.floor(Math.random()*10)+1;
-  raceCurrent={a,b,correct:a*b};
-  document.getElementById('race-question').textContent=`${a} × ${b} = ?`;
+  raceCurrent=makeQuestion(a, gameOps.race);
+  document.getElementById('race-question').textContent=raceCurrent.text;
   const input=document.getElementById('race-input');
   input.value='';
   input.focus();
@@ -734,8 +918,13 @@ function startMemory(){
   const mults = shuffle([1,2,3,4,5,6,7,8,9,10]).slice(0,6);
   let cards=[];
   mults.forEach((m,i)=>{
-    cards.push({id:'q'+i, label:`${memoryTable}×${m}`, pair:i});
-    cards.push({id:'a'+i, label:`${memoryTable*m}`, pair:i});
+    if(gameOps.memory==='div'){
+      cards.push({id:'q'+i, label:`${memoryTable*m}÷${memoryTable}`, pair:i});
+      cards.push({id:'a'+i, label:`${m}`, pair:i});
+    } else {
+      cards.push({id:'q'+i, label:`${memoryTable}×${m}`, pair:i});
+      cards.push({id:'a'+i, label:`${memoryTable*m}`, pair:i});
+    }
   });
   cards = shuffle(cards);
 
@@ -770,7 +959,7 @@ function flipMemoryCard(el){
         if(memoryMatchedCount===6){
           setTimeout(()=>{
             document.getElementById('memory-play').classList.add('hidden');
-            showResult('🌟','Achou todos os pares!', `Foram ${memoryTries} tentativas na tabuada do ${memoryTable}. Capricho, Helena!`);
+            showResult('🌟','Achou todos os pares!', `Foram ${memoryTries} tentativas na tabuada ${gameOps.memory==='div'?'de dividir':''} do ${memoryTable}. Capricho, Helena!`.replace('  ',' '));
           },600);
         }
       },500);
@@ -854,9 +1043,8 @@ function spinRoleta(){
     document.getElementById('roleta-spin-btn').classList.remove('btn-disabled');
     roletaSpins++;
     document.getElementById('roleta-spins').textContent = roletaSpins;
-    const b = Math.floor(Math.random()*10)+1;
-    roletaCurrent = {a: target, b, correct: target*b};
-    document.getElementById('roleta-question').textContent = `${target} × ${b} = ?`;
+    roletaCurrent = makeQuestion(target, gameOps.roleta);
+    document.getElementById('roleta-question').textContent = roletaCurrent.text;
     document.getElementById('roleta-input').value='';
     document.getElementById('roleta-question-wrap').classList.add('active');
     document.getElementById('roleta-input').focus();
@@ -879,6 +1067,458 @@ function checkRoletaAnswer(){
 document.getElementById('roleta-input').addEventListener('keyup', function(e){
   if(e.key==='Enter') checkRoletaAnswer();
 });
+
+/* ---------- MULTIPLICAÇÃO OU DIVISÃO (Corrida, Memória, Roleta) ---------- */
+const gameOps = {race:'mul', memory:'mul', roleta:'mul'};
+function setOp(game, op){
+  gameOps[game] = op;
+  document.querySelectorAll('#'+game+'-op .op-btn').forEach(b=>{
+    b.classList.toggle('active', b.dataset.v===op);
+  });
+}
+function makeQuestion(a, op){
+  const b = Math.floor(Math.random()*10)+1;
+  if(op==='div') return {text:`${a*b} ÷ ${a} = ?`, correct:b, a, b};
+  return {text:`${a} × ${b} = ?`, correct:a*b, a, b};
+}
+
+/* ---------- REPARTE OS DOCES ---------- */
+const docesAnimals = ['🐰','🐱','🐶','🦊','🐼','🐨','🐸','🦁','🐯','🐵'];
+let docesN = 2, docesK = 3, docesDealing = false, docesTimer = null;
+function buildDocesChips(){
+  const wrap=document.getElementById('doces-chips');
+  wrap.innerHTML='';
+  for(let n=2;n<=10;n++){
+    const c=document.createElement('button');
+    c.className='chip'+(n===docesN?' selected':'');
+    c.textContent=n;
+    c.onclick=()=>{ if(docesDealing) return; docesN=n; docesK=3; buildDocesChips(); renderDoces(); };
+    wrap.appendChild(c);
+  }
+}
+function renderDoces(){
+  clearInterval(docesTimer); docesDealing=false;
+  const total = docesN*docesK;
+  document.getElementById('doces-pile').textContent = `🍬 ${total} doces para repartir entre ${docesN} amigos`;
+  const wrap=document.getElementById('doces-friends');
+  wrap.innerHTML='';
+  for(let i=0;i<docesN;i++){
+    const f=document.createElement('div');
+    f.className='friend';
+    f.innerHTML=`<div class="face">${docesAnimals[i]}</div><div class="candies"></div><div class="count">0</div>`;
+    wrap.appendChild(f);
+  }
+  document.getElementById('doces-eq').textContent = `${total} ÷ ${docesN} = ?`;
+  document.getElementById('doces-inverse').textContent = '👉 Aperte "Repartir!" e veja quantos doces cada amigo ganha. Um de cada vez, para ninguém ficar com mais!';
+  document.getElementById('doces-deal').classList.remove('btn-disabled');
+  document.getElementById('doces-prev').classList.toggle('btn-disabled', docesK===1);
+  document.getElementById('doces-next').classList.toggle('btn-disabled', docesK===10);
+}
+function docesStep(dir){
+  if(docesDealing) return;
+  docesK = Math.min(10, Math.max(1, docesK+dir));
+  renderDoces();
+}
+function dealDoces(){
+  if(docesDealing) return;
+  renderDoces();
+  docesDealing = true;
+  ['doces-deal','doces-prev','doces-next'].forEach(id=>document.getElementById(id).classList.add('btn-disabled'));
+  const total = docesN*docesK;
+  let round = 0;
+  const friends = document.querySelectorAll('#doces-friends .friend');
+  docesTimer = setInterval(()=>{
+    round++;
+    friends.forEach(f=>{
+      const c=document.createElement('span'); c.textContent='🍬';
+      f.querySelector('.candies').appendChild(c);
+      f.querySelector('.count').textContent = round;
+    });
+    const left = total - round*docesN;
+    document.getElementById('doces-pile').textContent = left>0
+      ? `🍬 Faltam ${left} doces para repartir…`
+      : `🎉 Acabaram os doces! Cada amigo ganhou ${docesK} doce${docesK>1?'s':''}.`;
+    if(round>=docesK){
+      clearInterval(docesTimer);
+      docesDealing = false;
+      document.getElementById('doces-eq').textContent = `${total} ÷ ${docesN} = ${docesK}`;
+      document.getElementById('doces-inverse').textContent =
+        `✔️ Confira ao contrário: ${docesN} amigos × ${docesK} doce${docesK>1?'s':''} = ${total}. Por isso, ${total} ÷ ${docesN} = ${docesK}. Dividir é a tabuada ao contrário!`;
+      document.getElementById('doces-deal').classList.remove('btn-disabled');
+      document.getElementById('doces-prev').classList.toggle('btn-disabled', docesK===1);
+      document.getElementById('doces-next').classList.toggle('btn-disabled', docesK===10);
+    }
+  }, 450);
+}
+buildDocesChips();
+renderDoces();
+
+/* ---------- DETETIVE DA DIVISÃO ---------- */
+let detetiveTables = new Set([2,3,4,5]);
+let detetiveScore=0, detetiveStreak=0, detetiveCurrent=null, detetiveLock=false;
+const detetiveStories = [
+  (t,a)=>`🕵️ Mistério: ${t} doces foram repartidos igualmente entre ${a} amigos. Quantos doces cada um ganhou?`,
+  (t,a)=>`🕵️ Mistério: ${t} lápis foram guardados em ${a} estojos, a mesma quantidade em cada um. Quantos lápis há em cada estojo?`,
+  (t,a)=>`🕵️ Mistério: ${t} figurinhas foram coladas em ${a} páginas do álbum, iguaizinhas. Quantas figurinhas há em cada página?`,
+  (t,a)=>`🕵️ Mistério: ${t} flores foram colocadas em ${a} vasos, a mesma quantidade em cada. Quantas flores há em cada vaso?`,
+  (t,a)=>`🕵️ Mistério: ${t} biscoitos foram arrumados em ${a} pratinhos, iguais. Quantos biscoitos há em cada pratinho?`
+];
+function buildDetetiveChips(){
+  const wrap=document.getElementById('detetive-chips');
+  wrap.innerHTML='';
+  for(let n=2;n<=10;n++){
+    const c=document.createElement('button');
+    c.className='chip'+(detetiveTables.has(n)?' selected':'');
+    c.textContent=n;
+    c.onclick=()=>{
+      if(detetiveTables.has(n)) detetiveTables.delete(n); else detetiveTables.add(n);
+      buildDetetiveChips();
+    };
+    wrap.appendChild(c);
+  }
+}
+buildDetetiveChips();
+function newDetetiveQuestion(){
+  detetiveLock=false;
+  const tables=[...detetiveTables];
+  if(tables.length===0) tables.push(2);
+  const a = tables[Math.floor(Math.random()*tables.length)];
+  const q = makeQuestion(a, 'div');
+  detetiveCurrent = q;
+  const story = detetiveStories[Math.floor(Math.random()*detetiveStories.length)];
+  document.getElementById('detetive-story').textContent = story(a*q.b, a);
+  document.getElementById('detetive-question').textContent = q.text;
+  const options = new Set([q.correct]);
+  while(options.size<4){
+    const fake = q.correct + (Math.floor(Math.random()*7)-3);
+    if(fake>0 && fake!==q.correct) options.add(fake);
+  }
+  const optWrap=document.getElementById('detetive-options');
+  optWrap.innerHTML='';
+  shuffle([...options]).forEach(val=>{
+    const btn=document.createElement('button');
+    btn.className='option-btn';
+    btn.textContent=val;
+    btn.onclick=()=>checkDetetiveAnswer(val, btn);
+    optWrap.appendChild(btn);
+  });
+  document.getElementById('detetive-feedback').textContent='';
+}
+function checkDetetiveAnswer(val, btn){
+  if(detetiveLock) return;
+  detetiveLock=true;
+  const q=detetiveCurrent;
+  document.querySelectorAll('#detetive-options .option-btn').forEach(b=>{
+    if(parseInt(b.textContent)===q.correct) b.classList.add('correct');
+  });
+  const fb=document.getElementById('detetive-feedback');
+  let wait=1300;
+  if(val===q.correct){
+    detetiveScore++; detetiveStreak++;
+    fb.textContent='✅ Mistério resolvido, Helena!';
+    fb.style.color='var(--grass-dark)';
+  } else {
+    btn.classList.add('wrong');
+    detetiveStreak=0;
+    fb.textContent=`🔎 Pista: pense ao contrário, ${q.a} × ? = ${q.a*q.b}. A resposta era ${q.correct}, porque ${q.a} × ${q.correct} = ${q.a*q.b}.`;
+    fb.style.color='var(--coral-dark)';
+    wait=3200;
+  }
+  document.getElementById('detetive-score').textContent=detetiveScore;
+  document.getElementById('detetive-streak').textContent=detetiveStreak;
+  setTimeout(newDetetiveQuestion, wait);
+}
+function startDetetive(){
+  detetiveScore=0; detetiveStreak=0;
+  document.getElementById('detetive-score').textContent=0;
+  document.getElementById('detetive-streak').textContent=0;
+  document.getElementById('detetive-play').classList.remove('hidden');
+  newDetetiveQuestion();
+}
+
+/* ---------- HORA DO RELÓGIO ---------- */
+const relLevels = [
+  {n:'Horas cheias',       d:'ponteiro grande no 12', step:60},
+  {n:'Meia hora',          d:'grande no 12 ou no 6', step:30},
+  {n:'Quartos de hora',    d:'grande no 12, 3, 6 ou 9', step:15},
+  {n:'De 5 em 5 minutos',  d:'conte 5, 10, 15…', step:5},
+  {n:'Qualquer minuto',    d:'conte os tracinhos', step:5},
+  {n:'Falar as horas',     d:'"quinze para as quatro"', step:5}
+];
+const RL = {level:0, mode:'read', q:0, total:10, score:0, target:null, prev:null, set:0, tries:0, lock:false};
+const relHourWords = ['doze','uma','duas','três','quatro','cinco','seis','sete','oito','nove','dez','onze','doze'];
+const relMinWords = {5:'cinco',10:'dez',15:'quinze',20:'vinte',25:'vinte e cinco',30:'meia'};
+
+function relNorm(x){ return ((x%720)+720)%720; }
+function relH(t){ return Math.floor(t/60)%12 || 12; }
+function relTimeStr(t){ return relH(t)+':'+String(t%60).padStart(2,'0'); }
+function relWords(t){
+  const h=relH(t), m=t%60;
+  if(m===0) return h===1 ? 'uma hora' : relHourWords[h]+' horas';
+  if(m<=30) return relHourWords[h]+' e '+relMinWords[m];
+  const nh = h%12+1;
+  return relMinWords[60-m] + (nh===1 ? ' para a uma' : ' para as '+relHourWords[nh]);
+}
+function relCap(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function relLabel(t){ return RL.level===5 ? relCap(relWords(t)) : relTimeStr(t); }
+function relValid(t, L){
+  const m=t%60;
+  return [m===0, m%30===0, m%15===0, m%5===0, true, m%5===0][L];
+}
+function relRandom(L){
+  const h=Math.floor(Math.random()*12);
+  let m;
+  if(L===0) m=0;
+  else if(L===1) m=[0,30][Math.floor(Math.random()*2)];
+  else if(L===2) m=[0,15,30,45][Math.floor(Math.random()*4)];
+  else if(L===4) m=Math.floor(Math.random()*60);
+  else m=Math.floor(Math.random()*12)*5;
+  return h*60+m;
+}
+function relDistractors(t){
+  const L=RL.level, h=Math.floor(t/60)%12, m=t%60;
+  const c=[t+60, t-60];
+  if(m%5===0) c.push(((m/5)%12)*60 + ((h||12)*5)%60);     // trocou os ponteiros
+  if(L===0) c.push(0, t+120);
+  if(L===1) c.push(t+30, t-30);
+  if(L===2) c.push(t+15, t-15, t+30);
+  const traps=[];
+  if((L===3||L===4) && m%5===0 && m>0) traps.push(h*60 + m/5); // leu o número em vez dos minutos
+  if(L===4 && m%5!==0) traps.push(t+5, t-5);
+  let out=[];
+  c.map(relNorm).forEach(x=>{ if(x!==t && !out.includes(x) && relValid(x,L)) out.push(x); });
+  traps.map(relNorm).forEach(x=>{ if(x!==t && !out.includes(x)) out.unshift(x); });
+  out = out.slice(0,3);
+  let guard=0;
+  while(out.length<3 && guard<200){
+    guard++;
+    const x=relRandom(L);
+    if(x!==t && !out.includes(x)) out.push(x);
+  }
+  return out;
+}
+function relExplain(t){
+  const h=relH(t), m=t%60, nh=h%12+1;
+  let s = m===0
+    ? `O ponteiro pequeno está no <b>${h}</b>, então são <b>${h} horas</b>. `
+    : `O ponteiro pequeno já passou do <b>${h}</b>, mas ainda não chegou no ${nh}. Então ainda são <b>${h} horas</b>. `;
+  if(m===0) s += 'O ponteiro grande está no <b>12</b>: é hora cheia!';
+  else if(m%5===0) s += `O ponteiro grande está no <b>${m/5}</b>. Contando de 5 em 5, dá <b>${m} minutos</b>.`;
+  else {
+    const base=Math.floor(m/5), extra=m%5;
+    s += `O ponteiro grande passou <b>${extra} tracinho${extra>1?'s':''}</b> depois do ${base||12} (que vale ${base*5}). Então são <b>${m} minutos</b>.`;
+  }
+  s += `<br>Resposta: <b>${relTimeStr(t)}</b>`;
+  if(m%5===0) s += ` — a gente fala “${relWords(t)}”.`;
+  return s;
+}
+
+function relBuildClock(){
+  const svg=document.getElementById('rel-clock');
+  const NS='http://www.w3.org/2000/svg';
+  const el=(name, attrs)=>{ const e=document.createElementNS(NS,name); for(const k in attrs) e.setAttribute(k,attrs[k]); return e; };
+  svg.innerHTML='';
+  svg.appendChild(el('circle',{cx:0,cy:0,r:86,fill:'#ffffff',stroke:'#7c5cd6','stroke-width':4}));
+  for(let i=0;i<60;i++){
+    const a=i*6*Math.PI/180, big=i%5===0;
+    const r1=big?73:79, r2=84;
+    svg.appendChild(el('line',{x1:r1*Math.sin(a),y1:-r1*Math.cos(a),x2:r2*Math.sin(a),y2:-r2*Math.cos(a),
+      stroke:big?'#3a2e4d':'#b9aecf','stroke-width':big?2.5:1.2,'stroke-linecap':'round'}));
+  }
+  const labels=el('g',{id:'rel-minlabels'});
+  for(let n=1;n<=12;n++){
+    const a=n*30*Math.PI/180;
+    const t=el('text',{x:63*Math.sin(a),y:-63*Math.cos(a),'text-anchor':'middle','dominant-baseline':'central',
+      'font-size':16,'font-weight':800,fill:'#3a2e4d'});
+    t.textContent=n; svg.appendChild(t);
+    const lb=el('text',{x:97*Math.sin(a),y:-97*Math.cos(a),'text-anchor':'middle','dominant-baseline':'central',
+      'font-size':8.5,'font-weight':700,fill:'#7c5cd6'});
+    lb.textContent = n===12 ? '00' : String(n*5).padStart(2,'0');
+    labels.appendChild(lb);
+  }
+  svg.appendChild(labels);
+  svg.appendChild(el('line',{id:'rel-hour',x1:0,y1:9,x2:0,y2:-42,stroke:'#e35fa0','stroke-width':8,'stroke-linecap':'round'}));
+  svg.appendChild(el('line',{id:'rel-minute',x1:0,y1:11,x2:0,y2:-70,stroke:'#7c5cd6','stroke-width':4.5,'stroke-linecap':'round'}));
+  svg.appendChild(el('circle',{cx:0,cy:0,r:5.5,fill:'#3a2e4d'}));
+  toggleRelLabels();
+}
+function relDraw(t){
+  const m=t%60;
+  document.getElementById('rel-hour').setAttribute('transform', `rotate(${((t/60)%12)*30})`);
+  document.getElementById('rel-minute').setAttribute('transform', `rotate(${m*6})`);
+}
+function toggleRelLabels(){
+  const g=document.getElementById('rel-minlabels');
+  if(g) g.style.display = document.getElementById('rel-labels').checked ? '' : 'none';
+}
+function buildRelLevels(){
+  const wrap=document.getElementById('rel-levels');
+  wrap.innerHTML='';
+  relLevels.forEach((lv,i)=>{
+    const b=document.createElement('button');
+    b.className='rel-level'+(i===RL.level?' active':'');
+    b.innerHTML=`${i+1}. ${lv.n}<small>${lv.d}</small>`;
+    b.onclick=()=>{ RL.level=i; buildRelLevels(); };
+    wrap.appendChild(b);
+  });
+}
+function setRelMode(m){
+  RL.mode=m;
+  document.querySelectorAll('#rel-mode .op-btn').forEach(b=>b.classList.toggle('active', b.dataset.v===m));
+}
+function relReset(){
+  document.getElementById('rel-setup').classList.remove('hidden');
+  document.getElementById('rel-play').classList.add('hidden');
+}
+function startRel(){
+  RL.q=0; RL.score=0; RL.prev=null;
+  document.getElementById('rel-score').textContent=0;
+  document.getElementById('rel-setup').classList.add('hidden');
+  document.getElementById('rel-play').classList.remove('hidden');
+  const isSet = RL.mode==='set';
+  document.getElementById('rel-read').classList.toggle('hidden', isSet);
+  document.getElementById('rel-set').classList.toggle('hidden', !isSet);
+  if(isSet) relBuildControls();
+  relAsk();
+}
+function relBuildControls(){
+  const L=RL.level, step=relLevels[L].step;
+  const wrap=document.getElementById('rel-controls');
+  let html = `<span class="lbl" style="color:var(--coral-dark)">Horas</span>
+    <button class="small-btn h" onclick="relAdjust(-60)">− 1 hora</button>
+    <button class="small-btn h" onclick="relAdjust(60)">+ 1 hora</button>`;
+  if(L>0){
+    html += `<span class="lbl" style="color:var(--grape-dark)">Minutos</span>
+      <button class="small-btn m" onclick="relAdjust(-${step})">− ${step} min</button>
+      <button class="small-btn m" onclick="relAdjust(${step})">+ ${step} min</button>`;
+  }
+  if(L===4){
+    html += `<span class="lbl" style="color:var(--grape-dark)">Minutos</span>
+      <button class="small-btn m" onclick="relAdjust(-1)">− 1 min</button>
+      <button class="small-btn m" onclick="relAdjust(1)">+ 1 min</button>`;
+  }
+  wrap.innerHTML=html;
+}
+function relAdjust(d){
+  if(RL.lock) return;
+  RL.set = relNorm(RL.set + d);
+  relDraw(RL.set);
+}
+function relAsk(){
+  if(RL.q>=RL.total){ relFinish(); return; }
+  RL.lock=false; RL.tries=0;
+  let t, guard=0;
+  do { t=relRandom(RL.level); guard++; } while(guard<50 && (t===RL.prev || (RL.mode==='set' && t===0)));
+  RL.target=t; RL.prev=t;
+  document.getElementById('rel-q').textContent = RL.q+1;
+  document.getElementById('rel-feedback').textContent='';
+  document.getElementById('rel-explain').classList.remove('active');
+  document.getElementById('rel-next').classList.add('hidden');
+  document.getElementById('rel-show').classList.add('hidden');
+  if(RL.mode==='read'){
+    document.getElementById('rel-prompt').textContent='Que horas são, Teté?';
+    relDraw(t);
+    const opts=shuffle([t, ...relDistractors(t)]);
+    const wrap=document.getElementById('rel-read');
+    wrap.classList.toggle('words', RL.level===5);
+    wrap.innerHTML='';
+    opts.forEach(x=>{
+      const b=document.createElement('button');
+      b.className='option-btn';
+      b.textContent=relLabel(x);
+      b.dataset.t=x;
+      b.onclick=()=>relCheckRead(x,b);
+      wrap.appendChild(b);
+    });
+  } else {
+    document.getElementById('rel-prompt').innerHTML = 'Monte no relógio: <span style="color:var(--grape-dark)">'+relLabel(t)+'</span>';
+    RL.set=0;
+    relDraw(0);
+    document.getElementById('rel-check').classList.remove('btn-disabled');
+  }
+}
+const relPraise=['Isso mesmo, Helena! 🎉','Muito bem, Helena! ⭐','Acertou, Helena! 💜','Parabéns, Helena! 🌟','Que beleza, Helena! 🎈'];
+function relGood(){
+  const fb=document.getElementById('rel-feedback');
+  fb.textContent=relPraise[Math.floor(Math.random()*relPraise.length)];
+  fb.style.color='var(--grass-dark)';
+}
+function relCheckRead(x, btn){
+  if(RL.lock) return;
+  RL.lock=true;
+  document.querySelectorAll('#rel-read .option-btn').forEach(b=>{
+    if(parseInt(b.dataset.t)===RL.target) b.classList.add('correct');
+  });
+  RL.q++;
+  if(x===RL.target){
+    RL.score++;
+    document.getElementById('rel-score').textContent=RL.score;
+    relGood();
+    setTimeout(relAsk, 1400);
+  } else {
+    btn.classList.add('wrong');
+    const fb=document.getElementById('rel-feedback');
+    fb.textContent='Quase! Vamos olhar juntos:';
+    fb.style.color='var(--coral-dark)';
+    const ex=document.getElementById('rel-explain');
+    ex.innerHTML=relExplain(RL.target);
+    ex.classList.add('active');
+    document.getElementById('rel-next').classList.remove('hidden');
+  }
+}
+function checkRelSet(){
+  if(RL.lock) return;
+  const fb=document.getElementById('rel-feedback');
+  const ex=document.getElementById('rel-explain');
+  if(RL.set===RL.target){
+    RL.lock=true; RL.q++;
+    if(RL.tries===0) RL.score++;
+    document.getElementById('rel-score').textContent=RL.score;
+    relGood();
+    ex.classList.remove('active');
+    document.getElementById('rel-show').classList.add('hidden');
+    document.getElementById('rel-check').classList.add('btn-disabled');
+    setTimeout(relAsk, 1500);
+    return;
+  }
+  RL.tries++;
+  const sameHour = Math.floor(RL.set/60)===Math.floor(RL.target/60);
+  const sameMin = RL.set%60===RL.target%60;
+  let hint;
+  if(sameHour) hint='O ponteiro pequeno está certinho. Agora ajuste o <b>ponteiro grande</b> (minutos).';
+  else if(sameMin) hint='O ponteiro grande está certinho. Agora ajuste o <b>ponteiro pequeno</b> (horas).';
+  else hint='Confira os dois ponteiros: primeiro o <b>pequeno</b> (horas), depois o <b>grande</b> (minutos).';
+  fb.textContent=`Quase! Você montou ${relLabel(RL.set)}.`;
+  fb.style.color='var(--coral-dark)';
+  ex.innerHTML='💡 '+hint;
+  ex.classList.add('active');
+  if(RL.tries>=2) document.getElementById('rel-show').classList.remove('hidden');
+}
+function showRelAnswer(){
+  RL.lock=true; RL.q++;
+  RL.set=RL.target;
+  relDraw(RL.target);
+  document.getElementById('rel-feedback').textContent='Veja como fica:';
+  const ex=document.getElementById('rel-explain');
+  ex.innerHTML=relExplain(RL.target);
+  ex.classList.add('active');
+  document.getElementById('rel-show').classList.add('hidden');
+  document.getElementById('rel-check').classList.add('btn-disabled');
+  document.getElementById('rel-next').classList.remove('hidden');
+}
+function relFinish(){
+  const s=RL.score, lv=relLevels[RL.level].n;
+  let emoji, title;
+  if(s>=9){ emoji='🏆'; title='Arrasou, Helena!'; }
+  else if(s>=6){ emoji='🌟'; title='Muito bem, Helena!'; }
+  else { emoji='🕐'; title='Bom treino, Helena!'; }
+  const sub = `Você acertou ${s} de ${RL.total} no nível "${lv}".` +
+    (s>=9 ? ' Já pode tentar o próximo nível!' : ' Treinando mais um pouquinho, você fica craque!');
+  showResult(emoji, title, sub);
+}
+buildRelLevels();
+relBuildClock();
+relDraw(0);
 </script>
 </body>
 </html>
