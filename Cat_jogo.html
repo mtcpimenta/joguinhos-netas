@@ -123,6 +123,115 @@
     60%{opacity:1; transform:scale(1);}
     100%{opacity:0; transform:scale(1);}
   }
+
+  .card-tijolos{background:linear-gradient(160deg, #ffab73, #e2703a);}
+  .card-memoria{background:linear-gradient(160deg, var(--green), var(--green-dark));}
+  .card-mastigar{background:linear-gradient(160deg, var(--pink), var(--purple-dark));}
+  .intro{font-size:0.95rem; color:var(--ink-soft); font-weight:700; margin:4px 0 12px; line-height:1.35;}
+
+  /* ---------- Tijolinhos ---------- */
+  .tij-stage{display:flex; gap:12px; align-items:flex-end; justify-content:center; margin:6px 0 10px;}
+  .tower{
+    width:120px; min-height:210px; display:flex; flex-direction:column-reverse; align-items:center;
+    background:linear-gradient(180deg, #f4fbff, #e6f4ea); border-radius:16px; padding:6px 0;
+    border:3px dashed var(--blue); position:relative;
+  }
+  .tower .kid{font-size:2.6rem; line-height:1; transition:transform .3s;}
+  .brick-hard{
+    width:92px; height:22px; margin-top:3px; border-radius:4px;
+    background:repeating-linear-gradient(90deg, #d9623b 0 44px, #f3e6d8 44px 47px);
+    border:2px solid #a8452a; animation:dropin .35s ease;
+  }
+  @keyframes dropin{from{transform:translateY(-40px); opacity:0;} to{transform:none; opacity:1;}}
+  .tij-food{font-size:5rem; line-height:1.1; margin:4px 0;}
+  .tij-name{font-size:1.3rem; font-weight:800; color:var(--ink-soft); margin-bottom:12px;}
+  .tij-choices{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+  .tij-btn{
+    border:none; border-radius:20px; padding:14px 8px; cursor:pointer; font-family:inherit;
+    font-weight:800; font-size:1.05rem; color:var(--ink); box-shadow:0 5px 0 rgba(0,0,0,0.12);
+    display:flex; flex-direction:column; align-items:center; gap:8px;
+  }
+  .tij-btn:active{transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.12);}
+  .tij-btn.duro{background:#ffe3d3;}
+  .tij-btn.mole{background:#ffe0f0;}
+  .tij-btn .brick-hard{animation:none; margin:0;}
+  .brick-soft{
+    width:92px; height:24px; border-radius:12px;
+    background:linear-gradient(180deg, #ffc2e2, #ff8fc7); border:2px solid #e35fa0;
+  }
+  .brick-soft.wobble{animation:wobble .9s ease;}
+  @keyframes wobble{
+    0%{transform:scale(1,1);} 20%{transform:scale(1.25,.7);} 40%{transform:scale(.85,1.2);}
+    60%{transform:scale(1.15,.8);} 80%{transform:scale(.95,1.05);} 100%{transform:scale(1,1);}
+  }
+  .soft-pile{min-height:30px; font-size:1.4rem; margin-top:8px;}
+  .soft-fall{display:inline-block; animation:fall 1s ease forwards;}
+  @keyframes fall{0%{transform:translateY(0) scale(1,1);} 50%{transform:translateY(8px) scale(1.4,.5);} 100%{transform:translateY(10px) scale(1.5,.4); opacity:.35;}}
+
+  /* ---------- Memória ---------- */
+  .level-row{display:flex; gap:10px; justify-content:center; margin:6px 0 14px; flex-wrap:wrap;}
+  .level-btn{
+    border:3px solid var(--green-dark); background:var(--white); color:var(--green-dark);
+    border-radius:14px; padding:10px 16px; font-weight:800; font-size:1rem; cursor:pointer; font-family:inherit;
+  }
+  .level-btn.active{background:var(--green-dark); color:var(--white);}
+  .mem-grid{display:grid; gap:10px; margin:0 auto; max-width:420px;}
+  .mem-card{
+    aspect-ratio:1/1; border-radius:16px; border:none; cursor:pointer;
+    background:linear-gradient(160deg, var(--purple), var(--purple-dark));
+    font-size:2.6rem; color:var(--white); box-shadow:0 4px 0 rgba(0,0,0,0.12);
+    display:flex; align-items:center; justify-content:center; font-family:inherit;
+  }
+  .mem-card.open{background:var(--white); border:3px solid var(--blue); color:var(--ink);}
+  .mem-card.found{background:var(--green); border:3px solid var(--green-dark); animation:pulse .5s;}
+  @keyframes pulse{50%{transform:scale(1.12);}}
+
+  /* ---------- Soldadinhos da Boca ---------- */
+  .mode-row{display:flex; gap:8px; justify-content:center; margin:6px 0 12px; flex-wrap:wrap;}
+  .mode-btn{
+    border:3px solid var(--purple-dark); background:var(--white); color:var(--purple-dark);
+    border-radius:14px; padding:9px 12px; font-weight:800; font-size:0.9rem; cursor:pointer; font-family:inherit;
+  }
+  .mode-btn.active{background:var(--purple-dark); color:var(--white);}
+  .mouth-box{
+    background:#fff5fa; border:3px solid var(--pink); border-radius:22px; padding:10px 8px 12px; margin-bottom:10px;
+  }
+  .box-label{font-size:0.85rem; font-weight:800; color:var(--pink-dark);}
+  .face{font-size:4.2rem; line-height:1.1;}
+  .face.chew{animation:chew .6s ease;}
+  @keyframes chew{25%{transform:scale(1.08,.9);} 50%{transform:scale(.95,1.06);} 75%{transform:scale(1.06,.92);}}
+  .bite-row{display:flex; align-items:center; justify-content:center; gap:10px; min-height:70px;}
+  .bite{font-size:3.4rem; transition:transform .5s ease, filter .5s; display:inline-block;}
+  .crumbs{font-size:0.95rem; letter-spacing:2px; min-width:40px;}
+  .bite-state{font-weight:800; color:var(--ink-soft); font-size:1rem; min-height:22px;}
+  .soldiers{font-size:1.4rem; letter-spacing:2px;}
+  .soldiers.work span{display:inline-block; animation:hop .6s ease;}
+  .soldiers.work span:nth-child(2){animation-delay:.08s;} .soldiers.work span:nth-child(3){animation-delay:.16s;}
+  .soldiers.work span:nth-child(4){animation-delay:.24s;}
+  @keyframes hop{50%{transform:translateY(-8px) rotate(-10deg);}}
+  .chew-dots{display:flex; justify-content:center; gap:6px; margin:10px 0 4px; flex-wrap:wrap;}
+  .chew-dot{width:20px; height:20px; border-radius:50%; background:#f1e8fb; border:2px solid var(--purple);}
+  .chew-dot.on{background:var(--purple-dark); border-color:var(--purple-dark);}
+  .big-actions{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:10px 0;}
+  .act-btn{
+    border:none; border-radius:18px; padding:16px 6px; font-size:1.15rem; font-weight:800; color:var(--white);
+    cursor:pointer; box-shadow:0 5px 0 rgba(0,0,0,0.15); font-family:inherit;
+  }
+  .act-btn:active{transform:translateY(3px); box-shadow:0 1px 0 rgba(0,0,0,0.15);}
+  .act-btn.chewb{background:var(--purple-dark);}
+  .act-btn.swallow{background:var(--blue-dark);}
+  .act-btn.go{background:var(--green-dark); grid-column:1/-1;}
+  .act-btn.off{opacity:.4; pointer-events:none;}
+  .tummy-box{
+    background:#f0fbf4; border:3px solid var(--green-dark); border-radius:22px; padding:10px 8px;
+    transition:background .3s;
+  }
+  .tummy-box.ouch{background:#ffecec; border-color:#e46a6a; animation:shake .5s;}
+  .tummy-box .box-label{color:var(--green-dark);}
+  .tummy-box.ouch .box-label{color:#c44;}
+  .tummy-face{font-size:2.6rem; line-height:1.1;}
+  .tummy-msg{font-weight:800; font-size:0.95rem; min-height:22px; color:var(--ink);}
+  .together-count{font-size:4.5rem; font-weight:800; color:var(--purple-dark); line-height:1.1; min-height:80px;}
 </style>
 </head>
 <body>
@@ -153,6 +262,27 @@
       <div>
         <div class="title">Cores</div>
         <div class="desc">Escuta o nome e toca na cor certa</div>
+      </div>
+    </button>
+    <button class="game-card card-tijolos" onclick="openGame('tijolos')">
+      <span class="emoji">🧱</span>
+      <div>
+        <div class="title">Tijolinhos do Corpinho</div>
+        <div class="desc">Duro ou mole? Construa um corpinho forte</div>
+      </div>
+    </button>
+    <button class="game-card card-memoria" onclick="openGame('memoria')">
+      <span class="emoji">🐶</span>
+      <div>
+        <div class="title">Memória dos Bichinhos</div>
+        <div class="desc">Ache os bichinhos iguais</div>
+      </div>
+    </button>
+    <button class="game-card card-mastigar" onclick="openGame('mastigar')">
+      <span class="emoji">💂</span>
+      <div>
+        <div class="title">Soldadinhos da Boca</div>
+        <div class="desc">Mastigar devagarinho até virar papinha</div>
       </div>
     </button>
   </div>
@@ -191,6 +321,89 @@
     <div class="stars" id="cores-stars">⭐</div>
   </div>
 
+  <!-- TIJOLINHOS -->
+  <div id="panel-tijolos" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🧱 Tijolinhos do Corpinho</h2>
+    <p class="intro">Tijolinho duro constrói corpinho forte. Tijolinho mole não constrói!</p>
+    <div class="tij-stage">
+      <div class="tower" id="tij-tower"><div class="kid" id="tij-kid">👧</div></div>
+    </div>
+    <div class="tij-food" id="tij-food">🍎</div>
+    <div class="tij-name" id="tij-name">Maçã</div>
+    <button class="hear-btn" onclick="ouvirTijolo()">🔊 Ouvir de novo</button>
+    <div class="tij-choices">
+      <button class="tij-btn duro" onclick="checarTijolo('duro', this)"><div class="brick-hard"></div>Tijolinho duro</button>
+      <button class="tij-btn mole" onclick="checarTijolo('mole', this)"><div class="brick-soft" id="tij-softbrick"></div>Tijolinho mole</button>
+    </div>
+    <div class="feedback" id="tij-feedback"></div>
+    <div class="soft-pile" id="tij-softpile"></div>
+  </div>
+
+  <!-- MEMÓRIA -->
+  <div id="panel-memoria" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>🐶 Memória dos Bichinhos</h2>
+    <p class="intro">Vire duas cartinhas e ache os bichinhos iguais!</p>
+    <div class="level-row" id="mem-levels">
+      <button class="level-btn active" data-p="3" onclick="novaMemoria(3)">🐣 3 pares</button>
+      <button class="level-btn" data-p="4" onclick="novaMemoria(4)">🐥 4 pares</button>
+      <button class="level-btn" data-p="6" onclick="novaMemoria(6)">🐔 6 pares</button>
+    </div>
+    <div class="mem-grid" id="mem-grid"></div>
+    <div class="feedback" id="mem-feedback"></div>
+  </div>
+
+  <!-- SOLDADINHOS DA BOCA -->
+  <div id="panel-mastigar" class="panel">
+    <button class="back-btn" onclick="goHome()">← voltar</button>
+    <h2>💂 Soldadinhos da Boca</h2>
+    <div class="mode-row">
+      <button class="mode-btn active" id="mast-mode-jogo" onclick="modoMastigar('jogo')">🎮 Brincar</button>
+      <button class="mode-btn" id="mast-mode-junto" onclick="modoMastigar('junto')">🍽️ Mastigar junto no almoço</button>
+    </div>
+
+    <div id="mast-jogo">
+      <p class="intro">Os soldadinhos da boca amassam a comida bem devagar. Só depois os soldadinhos da barriga conseguem pegar!</p>
+      <div class="mouth-box">
+        <div class="box-label">👄 Boca</div>
+        <div class="face" id="mast-face">😊</div>
+        <div class="bite-row"><span class="bite" id="mast-bite">🥕</span><span class="crumbs" id="mast-crumbs"></span></div>
+        <div class="bite-state" id="mast-state"></div>
+        <div class="soldiers" id="mast-soldiers-boca"><span>💂</span><span>💂</span><span>💂</span><span>💂</span></div>
+        <div class="box-label">soldadinhos da boca</div>
+        <div class="chew-dots" id="mast-dots"></div>
+      </div>
+      <div class="big-actions">
+        <button class="act-btn go" id="mast-pegar" onclick="pegarGarfada()">🍴 Pegar uma garfada</button>
+        <button class="act-btn chewb off" id="mast-chew" onclick="mastigar()">😋 Mastigar</button>
+        <button class="act-btn swallow off" id="mast-swallow" onclick="engolir()">👇 Engolir</button>
+      </div>
+      <div class="tummy-box" id="mast-tummy">
+        <div class="box-label">💛 Barriguinha</div>
+        <div class="tummy-face" id="mast-tummy-face">😌</div>
+        <div class="soldiers"><span>💂</span><span>💂</span><span>💂</span></div>
+        <div class="box-label">soldadinhos da barriga</div>
+        <div class="tummy-msg" id="mast-tummy-msg">Esperando a comida bem amassadinha…</div>
+      </div>
+      <div class="stars" id="mast-stars">⭐</div>
+    </div>
+
+    <div id="mast-junto" style="display:none;">
+      <p class="intro">Para usar na mesa, na hora de comer de verdade. O joguinho conta devagar enquanto a Cat mastiga.</p>
+      <div class="mouth-box">
+        <div class="face" id="junto-face">😊</div>
+        <div class="together-count" id="junto-count"></div>
+        <div class="chew-dots" id="junto-dots"></div>
+        <div class="bite-state" id="junto-msg">Coloque a comida na boca e aperte o botão.</div>
+      </div>
+      <div class="big-actions">
+        <button class="act-btn go" id="junto-btn" onclick="comecarJunto()">🍴 Coloquei na boca!</button>
+      </div>
+      <div class="stars" id="junto-stars">Garfadas bem mastigadas: 0</div>
+    </div>
+  </div>
+
 </div>
 
 <div class="celebrate" id="celebrate">🎉</div>
@@ -201,6 +414,7 @@ function goHome(){
   document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   document.getElementById('menu').style.display='flex';
   speechSynthesis.cancel();
+  if(typeof pararJunto==='function') pararJunto();
 }
 function openGame(name){
   document.getElementById('menu').style.display='none';
@@ -209,6 +423,9 @@ function openGame(name){
   if(name==='letras') novaLetra();
   if(name==='numeros') novoNumero();
   if(name==='cores') novaCor();
+  if(name==='tijolos') comecarTijolos();
+  if(name==='memoria') novaMemoria();
+  if(name==='mastigar') modoMastigar('jogo');
 }
 function shuffle(arr){
   for(let i=arr.length-1;i>0;i--){
@@ -253,10 +470,10 @@ function addStar(elId){
 
 /* ---------- LETRAS ---------- */
 const letras = {
-  A:['🐝','Abelha'], B:['🦋','Borboleta'], C:['🐱','Cachorro'], D:['🐬','Delfim'],
+  A:['🐝','Abelha'], B:['🦋','Borboleta'], C:['🐶','Cachorro'], D:['🦕','Dinossauro'],
   E:['🐘','Elefante'], F:['🌸','Flor'], G:['🦒','Girafa'], I:['🦎','Iguana'],
-  L:['🦁','Leão'], M:['🐒','Macaco'], O:['🦉','Coruja'], P:['🐧','Pinguim'],
-  S:['🐍','Serpente'], T:['🐢','Tartaruga'], U:['🍇','Uva'], V:['🐄','Vaca']
+  L:['🦁','Leão'], M:['🐒','Macaco'], O:['🥚','Ovo'], P:['🐧','Pinguim'],
+  S:['🐸','Sapo'], T:['🐢','Tartaruga'], U:['🍇','Uva'], V:['🐄','Vaca']
 };
 let letraAtual = 'A';
 function novaLetra(){
@@ -295,7 +512,7 @@ function checarLetra(l, btn){
     fb.textContent = '✅ Isso, Cat!';
     celebrar();
     addStar('letras-stars');
-    falar('Isso mesmo, Cati! Muito bem!');
+    falar('Isso mesmo, Catarina! Muito bem!');
     setTimeout(novaLetra, 1400);
   } else {
     btn.classList.add('shake');
@@ -340,7 +557,7 @@ function checarNumero(n, btn){
     fb.textContent = '✅ Isso, Cat!';
     celebrar();
     addStar('numeros-stars');
-    falar(`Isso mesmo! São ${numeroAtual}! Muito bem, Cati!`);
+    falar(`Isso mesmo! São ${numeroAtual}! Muito bem, Catarina!`);
     setTimeout(novoNumero, 1400);
   } else {
     btn.classList.add('shake');
@@ -389,13 +606,337 @@ function checarCor(nome, btn){
     fb.textContent = '✅ Isso, Cat!';
     celebrar();
     addStar('cores-stars');
-    falar('Isso mesmo, Cati! Muito bem!');
+    falar('Isso mesmo, Catarina! Muito bem!');
     setTimeout(novaCor, 1400);
   } else {
     btn.classList.add('shake');
     fb.textContent = '👉 Tenta de novo!';
     setTimeout(()=>btn.classList.remove('shake'), 400);
   }
+}
+
+/* ---------- TIJOLINHOS DO CORPINHO ---------- */
+const alimentos = [
+  {e:'🍎', n:'maçã', t:'duro'}, {e:'🍌', n:'banana', t:'duro'}, {e:'🥕', n:'cenoura', t:'duro'},
+  {e:'🥦', n:'brócolis', t:'duro'}, {e:'🍚', n:'arroz', t:'duro'}, {e:'🫘', n:'feijão', t:'duro'},
+  {e:'🥚', n:'ovo', t:'duro'}, {e:'🐟', n:'peixe', t:'duro'}, {e:'🍗', n:'frango', t:'duro'},
+  {e:'🥛', n:'leite', t:'duro'}, {e:'🍊', n:'laranja', t:'duro'}, {e:'🍐', n:'pera', t:'duro'},
+  {e:'🍉', n:'melancia', t:'duro'}, {e:'🍅', n:'tomate', t:'duro'}, {e:'🥒', n:'pepino', t:'duro'},
+  {e:'🍓', n:'morango', t:'duro'}, {e:'🥑', n:'abacate', t:'duro'}, {e:'🥔', n:'batata', t:'duro'},
+  {e:'🍬', n:'bala', t:'mole'}, {e:'🍭', n:'pirulito', t:'mole'}, {e:'🍫', n:'chocolate', t:'mole'},
+  {e:'🍩', n:'rosquinha', t:'mole'}, {e:'🧁', n:'bolinho com cobertura', t:'mole'}, {e:'🍰', n:'bolo de festa', t:'mole'},
+  {e:'🍦', n:'sorvete', t:'mole'}, {e:'🥤', n:'refrigerante', t:'mole'}, {e:'🍟', n:'batata frita', t:'mole'},
+  {e:'🍪', n:'biscoito recheado', t:'mole'}, {e:'🍮', n:'pudim', t:'mole'}
+];
+const TORRE_MAX = 8;
+let tijAtual = null, tijAnterior = null, tijTorre = 0, tijLock = false;
+function montarTorre(){
+  const t = document.getElementById('tij-tower');
+  t.querySelectorAll('.brick-hard').forEach(b=>b.remove());
+  const kid = document.getElementById('tij-kid');
+  kid.textContent = '👧';
+  for(let i=0;i<tijTorre;i++){
+    const b=document.createElement('div'); b.className='brick-hard'; b.style.animation='none';
+    t.insertBefore(b, kid);
+  }
+}
+function comecarTijolos(){
+  tijTorre = 0;
+  document.getElementById('tij-softpile').textContent = '';
+  montarTorre();
+  novoTijolo();
+}
+function novoTijolo(){
+  tijLock = false;
+  // alterna de modo que apareçam mais tijolinhos duros do que moles
+  const querMole = Math.random() < 0.35;
+  const lista = alimentos.filter(a => a.t === (querMole?'mole':'duro') && a !== tijAnterior);
+  tijAtual = lista[Math.floor(Math.random()*lista.length)];
+  tijAnterior = tijAtual;
+  document.getElementById('tij-food').textContent = tijAtual.e;
+  document.getElementById('tij-name').textContent = relCapCat(tijAtual.n);
+  document.getElementById('tij-feedback').textContent = '';
+  setTimeout(ouvirTijolo, 300);
+}
+function relCapCat(s){ return s.charAt(0).toUpperCase()+s.slice(1); }
+function ouvirTijolo(){
+  falar(`${relCapCat(tijAtual.n)}! É tijolinho duro ou tijolinho mole?`);
+}
+function checarTijolo(tipo, btn){
+  if(tijLock) return;
+  const fb = document.getElementById('tij-feedback');
+  if(tipo !== tijAtual.t){
+    btn.classList.add('shake');
+    setTimeout(()=>btn.classList.remove('shake'), 400);
+    fb.textContent = '🤔 Vamos pensar de novo!';
+    falar(tijAtual.t==='duro'
+      ? `Hum… ${tijAtual.n} ajuda a construir o corpinho. Tenta de novo!`
+      : `Hum… ${tijAtual.n} é gostoso, mas não constrói o corpinho. Tenta de novo!`);
+    return;
+  }
+  tijLock = true;
+  if(tipo === 'duro'){
+    tijTorre++;
+    const t = document.getElementById('tij-tower');
+    const b=document.createElement('div'); b.className='brick-hard';
+    t.insertBefore(b, document.getElementById('tij-kid'));
+    fb.textContent = '💪 Mais um tijolinho duro!';
+    celebrar();
+    if(tijTorre >= TORRE_MAX){
+      document.getElementById('tij-kid').textContent = '🦸‍♀️';
+      falar('Uau, Catarina! Com tantos tijolinhos duros, o corpinho ficou forte e saudável! Parabéns!');
+      fb.textContent = '🦸‍♀️ Corpinho forte, Catarina!';
+      setTimeout(comecarTijolos, 4200);
+      return;
+    }
+    falar(`Isso mesmo, Catarina! ${relCapCat(tijAtual.n)} é tijolinho duro. Constrói corpinho forte!`);
+    setTimeout(novoTijolo, 2600);
+  } else {
+    const sb = document.getElementById('tij-softbrick');
+    sb.classList.remove('wobble'); void sb.offsetWidth; sb.classList.add('wobble');
+    const pile = document.getElementById('tij-softpile');
+    const s=document.createElement('span'); s.className='soft-fall'; s.textContent=tijAtual.e;
+    pile.appendChild(s);
+    fb.textContent = '✅ Acertou! Esse é mole, amassa todo.';
+    falar(`Acertou, Catarina! ${relCapCat(tijAtual.n)} é tijolinho mole. Ele amassa todo e não constrói corpinho forte. É só de vez em quando.`);
+    setTimeout(novoTijolo, 3400);
+  }
+}
+
+/* ---------- MEMÓRIA DOS BICHINHOS ---------- */
+const bichosMemoria = [
+  {e:'🐶', n:'cachorro'}, {e:'🐱', n:'gato'}, {e:'🐰', n:'coelho'}, {e:'🐸', n:'sapo'},
+  {e:'🦁', n:'leão'}, {e:'🐷', n:'porquinho'}, {e:'🐮', n:'vaca'}, {e:'🐵', n:'macaco'},
+  {e:'🐼', n:'panda'}, {e:'🐧', n:'pinguim'}, {e:'🐘', n:'elefante'}, {e:'🦒', n:'girafa'},
+  {e:'🐢', n:'tartaruga'}, {e:'🦋', n:'borboleta'}, {e:'🐤', n:'pintinho'}, {e:'🐴', n:'cavalo'}
+];
+let memPares = 3, memAbertas = [], memAchados = 0, memLock = false;
+function novaMemoria(p){
+  if(p) memPares = p;
+  document.querySelectorAll('#mem-levels .level-btn').forEach(b=>b.classList.toggle('active', +b.dataset.p===memPares));
+  memAbertas = []; memAchados = 0; memLock = false;
+  document.getElementById('mem-feedback').textContent = '';
+  const escolhidos = shuffle([...bichosMemoria]).slice(0, memPares);
+  const cartas = shuffle([...escolhidos, ...escolhidos]);
+  const grid = document.getElementById('mem-grid');
+  const cols = memPares===3 ? 3 : 4;
+  grid.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+  grid.innerHTML = '';
+  cartas.forEach(b=>{
+    const c = document.createElement('button');
+    c.className = 'mem-card';
+    c.textContent = '❓';
+    c.dataset.e = b.e; c.dataset.n = b.n;
+    c.onclick = ()=>virarCarta(c);
+    grid.appendChild(c);
+  });
+  falar('Vire duas cartinhas e ache os bichinhos iguais!');
+}
+function virarCarta(c){
+  if(memLock || c.classList.contains('open') || c.classList.contains('found')) return;
+  c.classList.add('open');
+  c.textContent = c.dataset.e;
+  falar(c.dataset.n);
+  memAbertas.push(c);
+  if(memAbertas.length < 2) return;
+  memLock = true;
+  const [a,b] = memAbertas;
+  if(a.dataset.e === b.dataset.e){
+    setTimeout(()=>{
+      a.classList.add('found'); b.classList.add('found');
+      memAbertas = []; memLock = false; memAchados++;
+      celebrar();
+      if(memAchados === memPares){
+        document.getElementById('mem-feedback').textContent = '🎉 Achou todos, Catarina!';
+        falar('Parabéns, Catarina! Você achou todos os bichinhos!');
+        setTimeout(()=>novaMemoria(), 3500);
+      } else {
+        document.getElementById('mem-feedback').textContent = '✅ Achou um par!';
+        falar(`Isso! Dois ${plural(a.dataset.n)}! Muito bem, Catarina!`);
+      }
+    }, 500);
+  } else {
+    document.getElementById('mem-feedback').textContent = '👀 Não são iguais. Lembra onde estão!';
+    setTimeout(()=>{
+      a.classList.remove('open'); b.classList.remove('open');
+      a.textContent = '❓'; b.textContent = '❓';
+      memAbertas = []; memLock = false;
+      document.getElementById('mem-feedback').textContent = '';
+    }, 1300);
+  }
+}
+function plural(n){
+  const esp = {'leão':'leões','pinguim':'pinguins','cavalo':'cavalos'};
+  if(esp[n]) return esp[n];
+  return n.endsWith('s') ? n : n+'s';
+}
+
+/* ---------- SOLDADINHOS DA BOCA ---------- */
+const comidasBoca = [
+  {e:'🥕', n:'cenoura'}, {e:'🍎', n:'maçã'}, {e:'🥦', n:'brócolis'}, {e:'🍗', n:'frango'},
+  {e:'🍌', n:'banana'}, {e:'🥔', n:'batata'}, {e:'🍐', n:'pera'}, {e:'🥩', n:'carne'}, {e:'🌽', n:'milho'}
+];
+const MASTIGADAS = 10;
+const numerosFala = ['um','dois','três','quatro','cinco','seis','sete','oito','nove','dez'];
+let mastComida = null, mastCount = 0, mastOcupado = false, mastNaBoca = false, mastBoas = 0;
+
+function desenharDots(id, n){
+  const w = document.getElementById(id);
+  w.innerHTML = '';
+  for(let i=0;i<MASTIGADAS;i++){
+    const d=document.createElement('div'); d.className='chew-dot'+(i<n?' on':''); w.appendChild(d);
+  }
+}
+function modoMastigar(m){
+  document.getElementById('mast-mode-jogo').classList.toggle('active', m==='jogo');
+  document.getElementById('mast-mode-junto').classList.toggle('active', m==='junto');
+  document.getElementById('mast-jogo').style.display = m==='jogo' ? '' : 'none';
+  document.getElementById('mast-junto').style.display = m==='junto' ? '' : 'none';
+  pararJunto();
+  if(m==='jogo') resetMastigar(true);
+  else resetJunto();
+}
+function setBtn(id, on){ document.getElementById(id).classList.toggle('off', !on); }
+function resetMastigar(falarIntro){
+  mastNaBoca = false; mastCount = 0; mastOcupado = false;
+  document.getElementById('mast-face').textContent = '😊';
+  document.getElementById('mast-bite').textContent = '';
+  document.getElementById('mast-crumbs').textContent = '';
+  document.getElementById('mast-state').textContent = 'A boca está esperando uma garfada.';
+  desenharDots('mast-dots', 0);
+  setBtn('mast-pegar', true); setBtn('mast-chew', false); setBtn('mast-swallow', false);
+  document.getElementById('mast-pegar').style.display = '';
+  if(falarIntro) falar('Os soldadinhos da boca amassam a comida bem devagarinho. Aperte pegar uma garfada!');
+}
+function pegarGarfada(){
+  mastComida = comidasBoca[Math.floor(Math.random()*comidasBoca.length)];
+  mastNaBoca = true; mastCount = 0;
+  const bite = document.getElementById('mast-bite');
+  bite.textContent = mastComida.e;
+  bite.style.transform = 'scale(1)';
+  bite.style.filter = '';
+  document.getElementById('mast-crumbs').textContent = '';
+  document.getElementById('mast-face').textContent = '😮';
+  document.getElementById('mast-state').textContent = 'Pedação de '+mastComida.n+'!';
+  const tummy = document.getElementById('mast-tummy');
+  tummy.classList.remove('ouch');
+  document.getElementById('mast-tummy-face').textContent = '😌';
+  document.getElementById('mast-tummy-msg').textContent = 'Esperando a comida bem amassadinha…';
+  desenharDots('mast-dots', 0);
+  document.getElementById('mast-pegar').style.display = 'none';
+  setBtn('mast-chew', true); setBtn('mast-swallow', true);
+  falar(`Um pedação de ${mastComida.n}! Soldadinhos da boca, mastiguem devagarinho!`);
+}
+function mastigar(){
+  if(!mastNaBoca) return;
+  if(mastOcupado){ document.getElementById('mast-state').textContent = '🐢 Devagarinho…'; return; }
+  if(mastCount >= MASTIGADAS) return;
+  mastOcupado = true;
+  mastCount++;
+  const face = document.getElementById('mast-face');
+  face.textContent = '😋';
+  face.classList.remove('chew'); void face.offsetWidth; face.classList.add('chew');
+  const sold = document.getElementById('mast-soldiers-boca');
+  sold.classList.remove('work'); void sold.offsetWidth; sold.classList.add('work');
+  const bite = document.getElementById('mast-bite');
+  const escala = 1 - (mastCount/MASTIGADAS)*0.72;
+  bite.style.transform = `scale(${escala})`;
+  const crumbsN = Math.min(8, Math.ceil(mastCount*0.8));
+  document.getElementById('mast-crumbs').textContent = '•'.repeat(crumbsN);
+  desenharDots('mast-dots', mastCount);
+  let estado;
+  if(mastCount < 4) estado = 'Ainda é um pedaço grande…';
+  else if(mastCount < 7) estado = 'Virando pedacinhos…';
+  else if(mastCount < MASTIGADAS) estado = 'Quase virando papinha…';
+  else estado = '✨ Virou papinha! Agora pode engolir.';
+  document.getElementById('mast-state').textContent = estado;
+  if(mastCount >= MASTIGADAS){
+    bite.style.filter = 'blur(1.5px)';
+    falar('Dez! Virou papinha. Agora pode engolir!');
+    setBtn('mast-chew', false);
+  } else {
+    falar(numerosFala[mastCount-1]);
+  }
+  setTimeout(()=>{ mastOcupado = false; face.textContent = '😊'; }, 800);
+}
+function engolir(){
+  if(!mastNaBoca) return;
+  mastNaBoca = false;
+  setBtn('mast-chew', false); setBtn('mast-swallow', false);
+  document.getElementById('mast-bite').style.transform = 'scale(0)';
+  document.getElementById('mast-crumbs').textContent = '';
+  const tummy = document.getElementById('mast-tummy');
+  const tface = document.getElementById('mast-tummy-face');
+  const tmsg = document.getElementById('mast-tummy-msg');
+  if(mastCount >= MASTIGADAS){
+    tummy.classList.remove('ouch');
+    tface.textContent = '🥰';
+    tmsg.textContent = 'Obaa! Chegou papinha, fácil de pegar!';
+    document.getElementById('mast-state').textContent = '';
+    mastBoas++;
+    addStar('mast-stars');
+    celebrar();
+    falar('Os soldadinhos da barriga adoraram! A comida chegou bem amassadinha. Muito bem, Catarina!');
+    setTimeout(()=>resetMastigar(false), 3600);
+  } else {
+    tummy.classList.remove('ouch'); void tummy.offsetWidth; tummy.classList.add('ouch');
+    tface.textContent = '😣';
+    tmsg.textContent = 'Ai, ai! Pedação! Não dá para pegar!';
+    document.getElementById('mast-state').textContent = '';
+    falar('Ai, ai! Chegou um pedação! Os soldadinhos da barriga não conseguem pegar. É assim que a barriguinha dói. Na próxima, deixe os soldadinhos da boca trabalharem até dez!');
+    setTimeout(()=>{
+      resetMastigar(false);
+      tummy.classList.remove('ouch');
+      tface.textContent = '😌';
+      tmsg.textContent = 'Vamos tentar de novo, bem devagarinho?';
+    }, 5200);
+  }
+}
+
+/* --- Mastigar junto (para usar na mesa) --- */
+let juntoTimer = null, juntoN = 0, juntoBoas = 0, juntoRodando = false;
+function resetJunto(){
+  juntoN = 0; juntoRodando = false;
+  document.getElementById('junto-face').textContent = '😊';
+  document.getElementById('junto-count').textContent = '';
+  document.getElementById('junto-msg').textContent = 'Coloque a comida na boca e aperte o botão.';
+  document.getElementById('junto-btn').textContent = '🍴 Coloquei na boca!';
+  setBtn('junto-btn', true);
+  desenharDots('junto-dots', 0);
+}
+function pararJunto(){ clearInterval(juntoTimer); juntoRodando = false; }
+function comecarJunto(){
+  if(juntoRodando) return;
+  juntoRodando = true; juntoN = 0;
+  setBtn('junto-btn', false);
+  desenharDots('junto-dots', 0);
+  document.getElementById('junto-msg').textContent = 'Mastiga devagarinho junto comigo…';
+  falar('Vamos mastigar juntinho, bem devagar!');
+  setTimeout(()=>{
+    if(!juntoRodando) return;
+    juntoTimer = setInterval(()=>{
+      juntoN++;
+      document.getElementById('junto-count').textContent = juntoN;
+      const f = document.getElementById('junto-face');
+      f.textContent='😋'; f.classList.remove('chew'); void f.offsetWidth; f.classList.add('chew');
+      desenharDots('junto-dots', juntoN);
+      if(juntoN >= MASTIGADAS){
+        pararJunto();
+        juntoBoas++;
+        document.getElementById('junto-stars').textContent = 'Garfadas bem mastigadas: '+juntoBoas+' '+'⭐'.repeat(Math.min(juntoBoas,10));
+        document.getElementById('junto-msg').textContent = '✨ Virou papinha! Agora pode engolir.';
+        falar('Dez! Agora pode engolir. Os soldadinhos da barriga agradecem!');
+        celebrar();
+        setTimeout(()=>{
+          document.getElementById('junto-btn').textContent = '🍴 Próxima garfada!';
+          document.getElementById('junto-face').textContent = '😊';
+          setBtn('junto-btn', true);
+        }, 2500);
+      } else {
+        falar(numerosFala[juntoN-1]);
+      }
+    }, 1500);
+  }, 2200);
 }
 </script>
 </body>
